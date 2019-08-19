@@ -18,6 +18,9 @@ public class ModifyCategory  extends HttpServlet{
 	@Override
 	public void doGet(HttpServletRequest requestVariable, HttpServletResponse responseVariable)
 		throws ServletException, IOException {
-		requestVariable.getRequestDispatcher("/WEB-INF/views/modify-category.jsp").forward(requestVariable,responseVariable);
+		//first, get the parameters
+		String categoryName = requestVariable.getParameter("categoryName");
+		String categoryDescription = requestVariable.getParameter("categoryDescription");
+		requestVariable.getRequestDispatcher("/WEB-INF/views/modify-category.jsp");
 	}
 }

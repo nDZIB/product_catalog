@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Overview of catalog</title>
+<title>Explicit catalog</title>
 </head>
 <body>
 	<h1>Here is our catalog</h1>
@@ -15,6 +15,11 @@
 			<li>${product.productName}&nbsp;&nbsp;
 				${product.productDescription} &nbsp;&nbsp; ${product.categoryName}
 				&nbsp;&nbsp; ${product.categoryDescription} &nbsp;&nbsp;<br>
+				<a href="/modify-category.pcat?categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}">
+					Modify Category</a>
+				<a href="/modify-product.pcat?name=${product.productName }&
+				procuctDescription=${product.productDescription}&productColor=${product.productColor}
+				">Modify Product</a>&nbsp;&nbsp;	
 			</li>
 		</sc:forEach>
 	</ul>

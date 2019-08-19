@@ -14,8 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import category.Category;
+
 import connection.ConnectionManager;
+import product.Product;
 
 
 
@@ -34,7 +35,7 @@ public class ViewCatalog extends HttpServlet{
 		the product catalog is displayed*/
 		
 		
-		List<Category> products = new ArrayList<Category>();//list to hold all available products
+		List<Product> products = new ArrayList<Product>();//list to hold all available products
 		ConnectionManager connectionManager = new ConnectionManager();
 		//get connection to the product catalog database
 		Connection databaseConnection = connectionManager.createConnection();
@@ -45,8 +46,10 @@ public class ViewCatalog extends HttpServlet{
 			requestVariable.getSession().setAttribute("dbconnection", databaseConnection);
 			//execute a query to get the list of all products
 			try {
-				PreparedStatement dbManipulate = databaseConnection.prepareStatement("SELECT * "
-						+ "FROM category");
+				PreparedStatement dbManipulate = databaseConnection.prepareStatement("SELECT "
+						+ "productName, productDescription, productColor, categoryName, "
+						+ "categoryDescription FROM product INNER JOIN category WHERE "
+						+ "product.categoryID = category.categoryID");
 				
 				//after getting the list of products, put them in request scope and forward to view
 				
@@ -54,10 +57,13 @@ public class ViewCatalog extends HttpServlet{
 				
 				//obtain list of products and add to a list
 				while(setOfProducts.next()) {
-					String categoryName = setOfProducts.getString(2);
-					String categoryDescription = setOfProducts.getString(3);
+					String productName = setOfProducts.getString(1);
+					String productDescription = setOfProducts.getString(2);
+					String productColor = setOfProducts.getString(3);
+					String categoryName = setOfProducts.getString(4);
+					String categoryDescription = setOfProducts.getString(5);
 					//instantiate a product object
-					Category product = new Category(categoryName, categoryDescription);
+					Product product = new Product(categoryName, categoryDescription, productName, productDescription, productColor);
 					
 					//add to list
 					products.add(product);
