@@ -29,7 +29,7 @@ public class ModifyProduct  extends HttpServlet{
 		String productName = requestVariable.getParameter("productName");
 		String productDescription = requestVariable.getParameter("productDescription");
 		String productColor = requestVariable.getParameter("productColor");
-		String categoryName = requestVariable.getParameter("categoryDescription");
+		String categoryName = requestVariable.getParameter("categoryName");
 		String categoryDescription = requestVariable.getParameter("categoryDescription");
 		
 		Product product = new Product(categoryName, categoryDescription, productName, productDescription, productColor);
@@ -70,11 +70,12 @@ public class ModifyProduct  extends HttpServlet{
 			
 			
 			try {
-				PreparedStatement pst = dbconnection.prepareStatement("SELECT prodcuctID,categoryID FROM product WHERE productName = ? AND "
+				PreparedStatement pst = dbconnection.prepareStatement("SELECT productID,categoryID FROM product WHERE productName = ? AND "
 						+ "productDescription = ? AND productColor = ?");//you might want to edit this query to include other fields
 				pst.setString(1, oldProduct.getProductName());
 				pst.setString(2, oldProduct.getProductDescription());
 				pst.setString(3, oldProduct.getProductColor());
+				
 				
 				ResultSet rs = pst.executeQuery();
 				while(rs.next()) {
@@ -85,11 +86,10 @@ public class ModifyProduct  extends HttpServlet{
 				//now get the category id of the new product, just to be sure you have the right
 				//thing supposing the user modified but the category
 				try {
-					PreparedStatement pst3 = dbconnection.prepareStatement("SELECT categoryID FROM product WHERE productName = ? AND "
-							+ "productDescription = ? AND productColor = ?");//you might want to edit this query to include other fields
-					pst3.setString(1, product.getProductName());
-					pst3.setString(2, product.getProductDescription());
-					pst3.setString(3, product.getProductColor());
+					PreparedStatement pst3 = dbconnection.prepareStatement("SELECT categoryID FROM category WHERE categoryName = ? AND "
+							+ "categoryDescription = ?");//you might want to edit this query to include other fields
+					pst3.setString(1, product.getCategoryName());
+					pst3.setString(2, product.getCategoryDescription());;
 					
 					ResultSet rs3 = pst3.executeQuery();
 					while(rs3.next()) {
@@ -100,7 +100,7 @@ public class ModifyProduct  extends HttpServlet{
 				}
 				//now you you can update the product
 				try {
-					PreparedStatement pst2 = dbconnection.prepareStatement("UPDATE product SET categoryID = ?, productName = ?, productDescription = ?"
+					PreparedStatement pst2 = dbconnection.prepareStatement("UPDATE product SET categoryID = ?, productName = ?, productDescription = ?,"
 							+ " productColor = ? WHERE productID = ? AND categoryID = ? ");
 					pst2.setInt(1, newcategoryID);
 					pst2.setString(2, product.getProductName());
@@ -108,6 +108,7 @@ public class ModifyProduct  extends HttpServlet{
 					pst2.setString(4, product.getProductColor());
 					pst2.setInt(5, productID);
 					pst2.setInt(6, categoryID);
+					
 					
 					//execute the query
 					pst2.executeUpdate();
@@ -147,16 +148,14 @@ public class ModifyProduct  extends HttpServlet{
 			System.out.println(product.getProductDescription());
 			//first search the database and retrieve the relevant product id
 			try {
-				
-				System.out.println(product.getCategoryName());
-				System.out.println(product.getCategoryDescription()+" hault");
 				PreparedStatement pst = dbconnection.prepareStatement("SELECT categoryID FROM category WHERE categoryName = ? "
 						+ "AND categoryDescription = ? ");
 				
 				pst.setString(1, category.getCategoryName());
 				pst.setString(2, category.getCategoryDescription());
 				
-				
+				System.out.println(category.getCategoryName());
+				System.out.println(category.getCategoryDescription());
 				ResultSet rs = pst.executeQuery();//rs has the category id
 				if(rs.next()) {
 					foundID =rs.getInt(1);
