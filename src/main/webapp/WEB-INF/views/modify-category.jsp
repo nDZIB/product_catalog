@@ -10,10 +10,11 @@
 <h1>Modify category</h1>
 
 <form action = "/modify-category.pcat" method = "post">
-<a href="/add-new-category">Add new Category</a><br>
+<a href="#">add as New</a><br>
 <input type="text" value="${category.categoryName}" name = "newCategoryName"><br>
 <input type ="text" value ="${category.categoryDescription}" name = "newCategoryDescription"><br>
-<input type ="submit" value = "Edit" name ="editCategory">&nbsp;
+<input type ="submit" value = "Save" name ="editCategory">&nbsp;
 <input type = "submit" value = "Delete" name = "deleteCategory">
+<input type = "submit" value = "Add as new" name = "addNewCategory">
 </form>
 </html>

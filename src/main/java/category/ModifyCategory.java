@@ -47,7 +47,7 @@ public class ModifyCategory  extends HttpServlet{
 					e.printStackTrace();
 					System.out.println("Nothing deleted");
 				}
-			} else if(requestVariable.getParameter("editCategory")!=null){//if user wishes to edit category
+			} else if(requestVariable.getParameter("editCategory")!=null) {//if user wishes to edit category
 				String newCategoryDescription = requestVariable.getParameter("newCategoryDescription").toString();
 				String newCategoryName = requestVariable.getParameter("newCategoryName").toString();
 				
@@ -65,6 +65,27 @@ public class ModifyCategory  extends HttpServlet{
 					
 					pst.execute();
 				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else if(requestVariable.getParameter("addNewCategory")!=null) {
+				//execute query to add a category, then return to the view-exp-catalog jsp
+				//first get category, then add it
+				String newCategoryDescription = requestVariable.getParameter("newCategoryDescription").toString();
+				String newCategoryName = requestVariable.getParameter("newCategoryName").toString();
+				
+				Category newCategory = new Category(newCategoryName, newCategoryDescription);
+				
+				try {
+					PreparedStatement pst = dbconnection.prepareStatement("INSERT INTO category(categoryName, "
+							+ "categoryDescription) VALUES(?,?)");
+					
+					//set the parameters
+					pst.setString(1, newCategory.getCategoryName());
+					pst.setString(2, newCategory.getCategoryDescription());
+					pst.execute();
+					
+					
+				} catch(SQLException e) {
 					e.printStackTrace();
 				}
 			}
