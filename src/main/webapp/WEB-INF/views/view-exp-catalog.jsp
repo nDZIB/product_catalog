@@ -12,13 +12,12 @@
 	<br>
 	<ul>
 		<sc:forEach items="${products}" var="product">
-			<li>${product.productName}&nbsp;&nbsp;
+			<li>${product.productName}&nbsp;&nbsp;${product.productColor}&nbsp;&nbsp;
 				${product.productDescription} &nbsp;&nbsp; ${product.categoryName}
 				&nbsp;&nbsp; ${product.categoryDescription} &nbsp;&nbsp;<br>
 				<a href="/modify-category.pcat?categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}">
 					Modify Category</a>
-				<a href="/modify-product.pcat?name=${product.productName }&
-				procuctDescription=${product.productDescription}&productColor=${product.productColor}
+				<a href="/modify-product.pcat?productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
 				">Modify Product</a>&nbsp;&nbsp;	
 			</li>
 		</sc:forEach>
