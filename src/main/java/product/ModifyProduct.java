@@ -50,6 +50,73 @@ public class ModifyProduct  extends HttpServlet{
 		int id;//will hold the categoryID of any newly created category
 		//redirect to the page to  modify products
 		if(requestVariable.getParameter("editProduct")!=null) {//code to execute if user wishes to edit product
+			//inorder to edit product, 
+				//1 get a corresponding category id
+				//make modifications
+			//get the parameters from the page
+			int productID = 0;// this will hold the id of the old project
+			int categoryID = 0;//will hold the categoryid
+			int newcategoryID = 0;// this will hold the id of the new project
+			String newProductName = requestVariable.getParameter("newProductName");
+			String newProductDescription = requestVariable.getParameter("newProductDescription");
+			String newProductColor = requestVariable.getParameter("newProductColor");
+			String categoryName = requestVariable.getParameter("newCategoryName");
+			String categoryDescription = requestVariable.getParameter("newCategoryDescription");
+			
+			Product product = new Product(categoryName, categoryDescription, newProductName, newProductDescription, newProductColor);
+			
+			//get relevent categoryID
+			Product oldProduct = (Product)requestVariable.getSession().getAttribute("product");
+			
+			
+			try {
+				PreparedStatement pst = dbconnection.prepareStatement("SELECT prodcuctID,categoryID FROM product WHERE productName = ? AND "
+						+ "productDescription = ? AND productColor = ?");//you might want to edit this query to include other fields
+				pst.setString(1, oldProduct.getProductName());
+				pst.setString(2, oldProduct.getProductDescription());
+				pst.setString(3, oldProduct.getProductColor());
+				
+				ResultSet rs = pst.executeQuery();
+				while(rs.next()) {
+					productID = rs.getInt(1);
+					categoryID = rs.getInt(2);
+				}
+				
+				//now get the category id of the new product, just to be sure you have the right
+				//thing supposing the user modified but the category
+				try {
+					PreparedStatement pst3 = dbconnection.prepareStatement("SELECT categoryID FROM product WHERE productName = ? AND "
+							+ "productDescription = ? AND productColor = ?");//you might want to edit this query to include other fields
+					pst3.setString(1, product.getProductName());
+					pst3.setString(2, product.getProductDescription());
+					pst3.setString(3, product.getProductColor());
+					
+					ResultSet rs3 = pst3.executeQuery();
+					while(rs3.next()) {
+						newcategoryID = rs3.getInt(1);
+					}
+				} catch(SQLException ex3) {
+					ex3.printStackTrace();
+				}
+				//now you you can update the product
+				try {
+					PreparedStatement pst2 = dbconnection.prepareStatement("UPDATE product SET categoryID = ?, productName = ?, productDescription = ?"
+							+ " productColor = ? WHERE productID = ? AND categoryID = ? ");
+					pst2.setInt(1, newcategoryID);
+					pst2.setString(2, product.getProductName());
+					pst2.setString(3, product.getProductDescription());
+					pst2.setString(4, product.getProductColor());
+					pst2.setInt(5, productID);
+					pst2.setInt(6, categoryID);
+					
+					//execute the query
+					pst2.executeUpdate();
+				} catch(SQLException ex2) {
+					ex2.printStackTrace();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} 
 			
 		} else if(requestVariable.getParameter("deleteProduct")!= null) {//product deletion code
 			Product product = (Product)requestVariable.getSession().getAttribute("product");
@@ -59,7 +126,7 @@ public class ModifyProduct  extends HttpServlet{
 				pst.setString(1, product.getProductName());
 				pst.setString(2, product.getProductDescription());
 				pst.executeUpdate();
-				
+				 
 				System.out.println("Okay, product deleted");
 			} catch (SQLException e) {
 				e.printStackTrace();
