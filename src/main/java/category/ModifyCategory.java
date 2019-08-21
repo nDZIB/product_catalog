@@ -42,10 +42,9 @@ public class ModifyCategory  extends HttpServlet{
 					pst.setString(2, category.getCategoryDescription());
 					pst.execute();
 					
-					System.out.println("Okay");
+					
 				} catch (SQLException e) {
 					e.printStackTrace();
-					System.out.println("Nothing deleted");
 				}
 			} else if(requestVariable.getParameter("editCategory")!=null) {//if user wishes to edit category
 				String newCategoryDescription = requestVariable.getParameter("newCategoryDescription").toString();
