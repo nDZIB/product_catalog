@@ -24,4 +24,27 @@ public class UserValidation {
 		}
 		return false;
 	}
+	
+	//method to insert a new user
+	public boolean signupUser(Connection dbconnection, SystemUser systemuser) {
+		
+		boolean userexists = userExists(dbconnection, systemuser.getUserName(), systemuser.getUserPassword());
+		if(!userexists) {//if the current user does not exist, then add them
+			try {
+				PreparedStatement pst = dbconnection.prepareStatement("INSERT INTO systemuser (userRealName, userName, "
+						+ "userPassword) VALUES(?,?,?)");
+				
+				pst.setString(1, systemuser.getUserRealName());
+				pst.setString(2, systemuser.getUserName());
+				pst.setString(3, systemuser.getUserPassword());
+				
+				pst.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;//return false if new user cannot be signed in
+			}
+			return true;// return value if a user is successfully signed up
+		}
+		return false;//return value if the user already exists
+	}
 }

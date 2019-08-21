@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import connection.ConnectionManager;
 
 @WebServlet(urlPatterns = "/user-signup.pcat")
 public class UserSignUp extends HttpServlet{
@@ -33,14 +32,20 @@ public class UserSignUp extends HttpServlet{
 		System.out.println(userName);
 		System.out.println(userPassword);
 		System.out.println(userRealName);
-		UserValidation userValidator = new UserValidation();
-		boolean userExists = userValidator.userExists(dbconnection, userName, userPassword);
-		if(userExists) {
-			responseVariable.sendRedirect("/view-exp-catalog.pcat");
-		} else {//if the user does not exist, keep user in view-catalog
-			responseVariable.sendRedirect("/view-catalog.pcat");
-		}
 		
+		//after having the necessary information, verify that user does not exist
+		//if user does not exist, then allow signup, other wise prompt user to change their name
+		UserValidation userValidator = new UserValidation();
+		SystemUser newsystemuser = new SystemUser(userRealName, userName, userPassword);
+		
+		boolean userISSignedUp = userValidator.signupUser(dbconnection, newsystemuser);
+		
+		//if the user is succesfully signed up redirect them to explicitly view 
+		if(userISSignedUp) {
+			responseVariable.sendRedirect("/view-exp-catalog.pcat");
+		} else {//send them back to sign up
+			requestVariable.getRequestDispatcher("/WEB-INF/views/user-signup.jsp").forward(requestVariable, responseVariable);
+		}
 	}
 	
 }
