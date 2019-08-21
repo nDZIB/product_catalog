@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import category.Category;
+import category.CategoryManagementService;
 
 @WebServlet(urlPatterns = "/modify-product.pcat")
 public class ModifyProduct  extends HttpServlet{
@@ -46,6 +47,9 @@ public class ModifyProduct  extends HttpServlet{
 	@Override
 	public void doPost(HttpServletRequest requestVariable, HttpServletResponse responseVariable)
 		throws ServletException, IOException {
+		ProductManagementService productMService = new ProductManagementService();
+		CategoryManagementService categoryMService = new CategoryManagementService();
+		
 		Connection dbconnection = (Connection)requestVariable.getSession().getAttribute("dbconnection");
 		int id;//will hold the categoryID of any newly created category
 		//redirect to the page to  modify products
@@ -69,70 +73,32 @@ public class ModifyProduct  extends HttpServlet{
 			Product oldProduct = (Product)requestVariable.getSession().getAttribute("product");
 			
 			
-			try {
-				PreparedStatement pst = dbconnection.prepareStatement("SELECT productID,categoryID FROM product WHERE productName = ? AND "
-						+ "productDescription = ? AND productColor = ?");//you might want to edit this query to include other fields
-				pst.setString(1, oldProduct.getProductName());
-				pst.setString(2, oldProduct.getProductDescription());
-				pst.setString(3, oldProduct.getProductColor());
-				
-				
-				ResultSet rs = pst.executeQuery();
-				while(rs.next()) {
-					productID = rs.getInt(1);
-					categoryID = rs.getInt(2);
-				}
-				
-				//now get the category id of the new product, just to be sure you have the right
-				//thing supposing the user modified but the category
-				try {
-					PreparedStatement pst3 = dbconnection.prepareStatement("SELECT categoryID FROM category WHERE categoryName = ? AND "
-							+ "categoryDescription = ?");//you might want to edit this query to include other fields
-					pst3.setString(1, product.getCategoryName());
-					pst3.setString(2, product.getCategoryDescription());;
-					
-					ResultSet rs3 = pst3.executeQuery();
-					while(rs3.next()) {
-						newcategoryID = rs3.getInt(1);
-					}
-				} catch(SQLException ex3) {
-					ex3.printStackTrace();
-				}
-				//now you you can update the product
-				try {
-					PreparedStatement pst2 = dbconnection.prepareStatement("UPDATE product SET categoryID = ?, productName = ?, productDescription = ?,"
-							+ " productColor = ? WHERE productID = ? AND categoryID = ? ");
-					pst2.setInt(1, newcategoryID);
-					pst2.setString(2, product.getProductName());
-					pst2.setString(3, product.getProductDescription());
-					pst2.setString(4, product.getProductColor());
-					pst2.setInt(5, productID);
-					pst2.setInt(6, categoryID);
-					
-					
-					//execute the query
-					pst2.executeUpdate();
-				} catch(SQLException ex2) {
-					ex2.printStackTrace();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} 
+			categoryID = productMService.getCategoryID(dbconnection, oldProduct);//get categoryID of old product
+			productID = productMService.getProductID(dbconnection, oldProduct);//get productID of old product
 			
+			if(productID != 0) {// the provided old product exists
+				if(categoryID != 0) {//and the provided category exists
+					Category category = new Category(product.getCategoryName(), product.getCategoryDescription());
+					
+					newcategoryID = categoryMService.getCategoryID(dbconnection, category);//get the categoryid of the new product
+					if(newcategoryID != 0) {//if the new product has a category
+						productMService.editProduct(dbconnection, product, newcategoryID, productID);
+					} else {//if no new category exists, then add it
+						System.out.println("No new CategoryExists");
+						//redirect user to modify-product
+					}
+				} else {// if the provided old product's category does not exist
+					System.out.println("Your category does not exist");
+					//redirect the user to modify-product.jsp
+				}
+			} else {//if the provided old product does not exist
+				System.out.println("Your product does not exist(can't update a non-existent product");
+				//redirect the user to modify-product.jsp
+			}
 		} else if(requestVariable.getParameter("deleteProduct")!= null) {//product deletion code
 			Product product = (Product)requestVariable.getSession().getAttribute("product");
-			//prepare a statement
-			try {//for better code, you might want to first get the relevant category id before proceeding
-				PreparedStatement pst = dbconnection.prepareStatement("DELETE FROM product WHERE productName=? AND productDescription=?");
-				pst.setString(1, product.getProductName());
-				pst.setString(2, product.getProductDescription());
-				pst.executeUpdate();
-				 
-				System.out.println("Okay, product deleted");
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println("Nothing deleted");
-			}
+			
+			productMService.removeProduct(dbconnection, product);
 			
 		} else if (requestVariable.getParameter("addNewProduct")!=null) {//product addition code
 			
@@ -146,62 +112,22 @@ public class ModifyProduct  extends HttpServlet{
 			Category category = new Category(categoryName, categoryDescription);
 			Product product = new Product(categoryName, categoryDescription, newProductName, newProductDescription, newProductColor);
 			System.out.println(product.getProductDescription());
-			//first search the database and retrieve the relevant product id
-			try {
-				PreparedStatement pst = dbconnection.prepareStatement("SELECT categoryID FROM category WHERE categoryName = ? "
-						+ "AND categoryDescription = ? ");
-				
-				pst.setString(1, category.getCategoryName());
-				pst.setString(2, category.getCategoryDescription());
-				
-				System.out.println(category.getCategoryName());
-				System.out.println(category.getCategoryDescription());
-				ResultSet rs = pst.executeQuery();//rs has the category id
-				if(rs.next()) {
-					foundID =rs.getInt(1);
-					pst = dbconnection.prepareStatement("INSERT INTO product(categoryID, productName, productDescription, productColor) VALUES(?,?,?,?)");
-					
-					pst.setInt(1, foundID);
-					pst.setString(2, product.getProductName());
-					pst.setString(3, product.getProductDescription());
-					pst.setString(4, product.getProductColor());
-					
-					//execute the query
-					pst.executeUpdate();
+			
+			
+			foundID = categoryMService.getCategoryID(dbconnection, category);
+			
+			if(foundID != 0) {//if the requested product category exists
+				productMService.addProduct(dbconnection, product, foundID);
+			} else {//otherwise if the category does not exist, add it and proceed
+				int newCategoryID = categoryMService.addCategory(dbconnection, category);
+				if(newCategoryID != 0) {//if the category was successfully added
+					productMService.addProduct(dbconnection, product, newCategoryID);//add the product
+				} else {//if the new product was not added
+					System.out.println("Could not add the product");
+					//redirect to modify-product.jsp
 				}
-				else {//if there is no such category, add the category
-					try {
-					PreparedStatement pst2 = dbconnection.prepareStatement("INSERT IGNORE INTO category(categoryName, categoryDescription) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
-					pst2.setString(1, category.getCategoryName());
-					pst2.setString(2, category.getCategoryDescription());
-					
-					 
-					pst2.executeUpdate();//i now have the id of the new category
-					id = 0;
-					ResultSet rs2 = pst2.getGeneratedKeys();
-					if(rs2.next())
-						id = rs2.getInt(1);
-					
-					//NOW INSERT THE PRODUCT
-					pst2 = dbconnection.prepareStatement("INSERT INTO product(categoryID, productName, productDescription, productColor) VALUES(?,?,?,?)");
-					
-					
-					pst2.setInt(1, id);
-					pst2.setString(2, product.getProductName());
-					pst2.setString(3, product.getProductDescription());
-					pst2.setString(4, product.getProductColor());
-					
-					//execute the query
-					pst2.executeUpdate();
-					}catch (SQLException td)  {
-						td.printStackTrace();
-					}
-				} 
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+			} 
+	}
 		requestVariable.getSession().removeAttribute("product");
 		responseVariable.sendRedirect("/view-exp-catalog.pcat");//after performing relevant logic, return to view-exp-catalog
 	}
