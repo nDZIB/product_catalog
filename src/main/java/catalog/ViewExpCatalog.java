@@ -37,6 +37,7 @@ public class ViewExpCatalog extends HttpServlet{
 		
 		List<Product> products = new ArrayList<Product>();//list to hold all available products
 		ConnectionManager connectionManager = new ConnectionManager();
+		CatalogManagementService catalogMService  = new CatalogManagementService();
 		//get connection to the product catalog database
 		Connection databaseConnection = (Connection)requestVariable.getSession().getAttribute("dbconnection");
 		
@@ -45,38 +46,15 @@ public class ViewExpCatalog extends HttpServlet{
 			//put the connection into session
 			//requestVariable.getSession().setAttribute("dbconnection", databaseConnection);
 			//execute a query to get the list of all products
-			try {
-				PreparedStatement dbManipulate = databaseConnection.prepareStatement("SELECT "
-						+ "productName, productDescription, productColor, categoryName, "
-						+ "categoryDescription FROM product INNER JOIN category WHERE "
-						+ "product.categoryID = category.categoryID");
-				
-				//after getting the list of products, put them in request scope and forward to view
-				
-				ResultSet setOfProducts = dbManipulate.executeQuery();
-				
-				//obtain list of products and add to a list
-				while(setOfProducts.next()) {
-					String productName = setOfProducts.getString(1);
-					String productDescription = setOfProducts.getString(2);
-					String productColor = setOfProducts.getString(3);
-					String categoryName = setOfProducts.getString(4);
-					String categoryDescription = setOfProducts.getString(5);
-					//instantiate a product object
-					Product product = new Product(categoryName, categoryDescription, productName, productDescription, productColor);
-					//Category product = new Category(categoryName, categoryDescription);
-					
-					//add to list
-					products.add(product);
-				}
-				
+			products = catalogMService.getProducts(databaseConnection);
+			if(products.size() != 0) {
 				//put the list in request scope
 				requestVariable.setAttribute("products", products);
 				
 				//forward the request to the view(view-catalog)
-				requestVariable.getRequestDispatcher("/WEB-INF/views/view-exp-catalog.jsp").forward(requestVariable, responseVariable);	
-			} catch (SQLException e) {
-				e.printStackTrace();//if getting the products fails print error to console
+				requestVariable.getRequestDispatcher("/WEB-INF/views/view-catalog.jsp").forward(requestVariable, responseVariable);	
+			} else {//if there are no products to display
+				System.out.println("No products to display");
 			}
 		} else {//else if the connection to the database was unsuccessful
 			System.out.println("Unable to connect to database");
@@ -93,6 +71,7 @@ public class ViewExpCatalog extends HttpServlet{
 		
 		
 		List<Product> products = new ArrayList<Product>();//list to hold all available products
+		CatalogManagementService catalogMService  = new CatalogManagementService();
 		//get connection to the product catalog database from current session
 		Connection databaseConnection = (Connection)requestVariable.getSession().getAttribute("dbconnection");
 		
@@ -101,38 +80,15 @@ public class ViewExpCatalog extends HttpServlet{
 			//put the connection into session
 			//requestVariable.getSession().setAttribute("dbconnection", databaseConnection);
 			//execute a query to get the list of all products
-			try {
-				PreparedStatement dbManipulate = databaseConnection.prepareStatement("SELECT "
-						+ "productName, productDescription, productColor, categoryName, "
-						+ "categoryDescription FROM product INNER JOIN category WHERE "
-						+ "product.categoryID = category.categoryID");
-				
-				//after getting the list of products, put them in request scope and forward to view
-				
-				ResultSet setOfProducts = dbManipulate.executeQuery();
-				
-				//obtain list of products and add to a list
-				while(setOfProducts.next()) {
-					String productName = setOfProducts.getString(1);
-					String productDescription = setOfProducts.getString(2);
-					String productColor = setOfProducts.getString(3);
-					String categoryName = setOfProducts.getString(4);
-					String categoryDescription = setOfProducts.getString(5);
-					//instantiate a product object
-					Product product = new Product(categoryName, categoryDescription, productName, productDescription, productColor);
-					//Category product = new Category(categoryName, categoryDescription);
-					
-					//add to list
-					products.add(product);
-				}
-				
+			products = catalogMService.getProducts(databaseConnection);
+			if(products.size() != 0) {
 				//put the list in request scope
 				requestVariable.setAttribute("products", products);
 				
 				//forward the request to the view(view-catalog)
 				requestVariable.getRequestDispatcher("/WEB-INF/views/view-exp-catalog.jsp").forward(requestVariable, responseVariable);	
-			} catch (SQLException e) {
-				e.printStackTrace();//if getting the products fails print error to console
+			} else {//if there are no products to display
+				System.out.println("No products to display");
 			}
 		} else {//else if the connection to the database was unsuccessful
 			System.out.println("Unable to connect to database");
