@@ -13,6 +13,7 @@
 	<ul>
 		<sc:forEach items="${products}" var="product">
 			<li>${product.productName}&nbsp;&nbsp;
+				${product.productColor}&nbsp;&nbsp;
 				${product.productDescription} &nbsp;&nbsp; ${product.categoryName}
 				&nbsp;&nbsp; ${product.categoryDescription} &nbsp;&nbsp;<br>
 			</li>
@@ -22,7 +23,8 @@
 	<br>
 	<br>
 	<div>
-		<form action="/view-exp-catalog.pcat" method="POST">
+		<a href = "/user-signup.pcat">Sign Up for account</a>
+		<form action="/login.pcat" method="POST">
 			<fieldset>
 				<legend>Login</legend>
 				<label>User Name:&nbsp;</label><input type="text" name="userName"><br>

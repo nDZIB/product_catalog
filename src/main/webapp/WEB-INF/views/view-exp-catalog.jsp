@@ -26,7 +26,9 @@
 	<br>
 	<br>
 	<div>
-		<form action="/view-exp-catalog.pcat" method="POST">
+	
+	<small>this is not necessary here though, we rather need to logout</small>
+		<form action="/login.pcat" method="POST">
 			<fieldset>
 				<legend>Login</legend>
 				<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
