@@ -1,6 +1,7 @@
 package filter;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,6 +12,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import connection.ConnectionManager;
 
 
 @WebFilter(urlPatterns = {"/modify-category.pcat", "/modify-product.pcat", "/view-exp-catalog.pcat"})

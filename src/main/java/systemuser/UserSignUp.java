@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import connection.ConnectionManager;
+
 
 @WebServlet(urlPatterns = "/user-signup.pcat")
 public class UserSignUp extends HttpServlet{
@@ -24,6 +26,10 @@ public class UserSignUp extends HttpServlet{
 	protected void doPost(HttpServletRequest requestVariable, HttpServletResponse responseVariable) 
 		throws ServletException, IOException {
 		Connection dbconnection =  (Connection)requestVariable.getSession().getAttribute("dbconnection");
+		if(dbconnection == null) {
+			dbconnection = new ConnectionManager().createConnection();
+			requestVariable.getSession().setAttribute("dbconnection", dbconnection);
+		}
 		String userName = requestVariable.getParameter("userName");
 		String userPassword = requestVariable.getParameter("userPassword");
 		String userRealName = requestVariable.getParameter("userRealName");
@@ -40,11 +46,25 @@ public class UserSignUp extends HttpServlet{
 		
 		boolean userISSignedUp = userValidator.signupUser(dbconnection, newsystemuser);
 		
-		//if the user is succesfully signed up redirect them to explicitly view 
+		//if the user is succesfully signed up, log them in// or give them forum to log in
 		if(userISSignedUp) {
-			responseVariable.sendRedirect("/view-exp-catalog.pcat");
+			System.out.println("signed up");
+			
+			
+			//UserValidation userValidator = new UserValidation();
+			boolean userExists = userValidator.userExists(dbconnection, userName, userPassword);
+			if(userExists) {
+				requestVariable.getSession().setAttribute("userName", userName);
+				responseVariable.sendRedirect("/view-exp-catalog.pcat");
+			} else {//if the user does not exist, keep user in view-catalog
+				responseVariable.sendRedirect("/view-catalog.pcat");
+			}
+			
+			System.out.println("Newly signed up user has been signed in");
 		} else {//send them back to sign up
-			requestVariable.getRequestDispatcher("/WEB-INF/views/user-signup.jsp").forward(requestVariable, responseVariable);
+			
+			responseVariable.sendRedirect("/user-signup.pcat");
+			//requestVariable.getRequestDispatcher("/WEB-INF/views/user-signup.jsp").forward(requestVariable, responseVariable);
 		}
 	}
 	
