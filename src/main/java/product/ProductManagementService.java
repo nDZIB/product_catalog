@@ -93,7 +93,7 @@ public class ProductManagementService {
 	public boolean addProduct(Connection dbconnection, Product product, int categoryID) {
 		PreparedStatement pst;
 		try {
-			pst = dbconnection.prepareStatement("INSERT INTO product(categoryID, productName, productDescription, productColor) VALUES(?,?,?,?)");
+			pst = dbconnection.prepareStatement("INSERT IGNORE INTO product(categoryID, productName, productDescription, productColor) VALUES(?,?,?,?)");
 			
 			
 			pst.setInt(1, categoryID);
