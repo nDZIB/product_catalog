@@ -40,17 +40,6 @@ public class ModifyCategory  extends HttpServlet{
 				//prepare a statement
 				
 				manageCategory.removeCategory(dbconnection, category);
-				
-//				try {
-//					PreparedStatement pst = dbconnection.prepareStatement("DELETE FROM category WHERE categoryName=? AND categoryDescription=?");
-//					pst.setString(1, category.getCategoryName());
-//					pst.setString(2, category.getCategoryDescription());
-//					pst.execute();
-//					
-//					
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			} else if(requestVariable.getParameter("editCategory")!=null) {//if user wishes to edit category
 				String newCategoryDescription = requestVariable.getParameter("newCategoryDescription").toString();
 				String newCategoryName = requestVariable.getParameter("newCategoryName").toString();
@@ -59,20 +48,7 @@ public class ModifyCategory  extends HttpServlet{
 				Category category = (Category)requestVariable.getSession().getAttribute("category");
 				
 				manageCategory.editCategory(dbconnection, category, newCategory);
-//				try {
-//					PreparedStatement pst = dbconnection.prepareStatement("UPDATE category SET categoryName= ?, "
-//							+ "categoryDescription = ? WHERE categoryName=? AND categoryDescription= ?");
-//					
-//					pst.setString(1, newCategory.getCategoryName());
-//					pst.setString(2, newCategory.getCategoryDescription());
-//					pst.setString(3, category.getCategoryName());
-//					pst.setString(4, category.getCategoryDescription());
-//					
-//					
-//					pst.execute();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
+//				
 			} else if(requestVariable.getParameter("addNewCategory")!=null) {
 				//execute query to add a category, then return to the view-exp-catalog jsp
 				//first get category, then add it
@@ -82,19 +58,6 @@ public class ModifyCategory  extends HttpServlet{
 				Category newCategory = new Category(newCategoryName, newCategoryDescription);
 				
 				manageCategory.addNewCategory(dbconnection, newCategory);
-//				try {
-//					PreparedStatement pst = dbconnection.prepareStatement("INSERT IGNORE INTO category(categoryName, "
-//							+ "categoryDescription) VALUES(?,?)");
-//					
-//					//set the parameters
-//					pst.setString(1, newCategory.getCategoryName());
-//					pst.setString(2, newCategory.getCategoryDescription());
-//					pst.execute();
-//					
-//					
-//				} catch(SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 			requestVariable.getSession().removeAttribute("category");
 			responseVariable.sendRedirect("/view-exp-catalog.pcat");
