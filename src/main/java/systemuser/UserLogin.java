@@ -15,6 +15,12 @@ import connection.ConnectionManager;
 public class UserLogin extends HttpServlet{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	//get the username and password,
 	//authenticate the user
 	//grant access to explicit view otherwise keep them in basic view
