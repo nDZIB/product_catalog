@@ -9,12 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import connection.ConnectionManager;
 
 @WebServlet(urlPatterns = "/login.pcat")
 public class UserLogin extends HttpServlet{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	//get the username and password,
 	//authenticate the user
 	//grant access to explicit view otherwise keep them in basic view
@@ -28,6 +32,7 @@ public class UserLogin extends HttpServlet{
 		UserValidation userValidator = new UserValidation();
 		boolean userExists = userValidator.userExists(dbconnection, userName, userPassword);
 		if(userExists) {
+			requestVariable.getSession().setAttribute("userName", userName);
 			responseVariable.sendRedirect("/view-exp-catalog.pcat");
 		} else {//if the user does not exist, keep user in view-catalog
 			responseVariable.sendRedirect("/view-catalog.pcat");
