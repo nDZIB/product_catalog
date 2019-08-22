@@ -28,6 +28,7 @@ public class UserLogin extends HttpServlet{
 		UserValidation userValidator = new UserValidation();
 		boolean userExists = userValidator.userExists(dbconnection, userName, userPassword);
 		if(userExists) {
+			requestVariable.getSession().setAttribute("userName", userName);
 			responseVariable.sendRedirect("/view-exp-catalog.pcat");
 		} else {//if the user does not exist, keep user in view-catalog
 			responseVariable.sendRedirect("/view-catalog.pcat");
