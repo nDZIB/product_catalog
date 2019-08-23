@@ -12,12 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 import connection.ConnectionManager;
 
 @WebServlet(urlPatterns = "/user-signup.pcat")
-public class UserSignUp extends HttpServlet {
+
+
+
+public class UserSignUp extends HttpServlet{
+	
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+
 
 	@Override
 	protected void doGet(HttpServletRequest requestVariable, HttpServletResponse responseVariable)
@@ -38,13 +44,14 @@ public class UserSignUp extends HttpServlet {
 		String userPassword = requestVariable.getParameter("userPassword");
 		String userRealName = requestVariable.getParameter("userRealName");
 
-		System.out.println(userName);
-		System.out.println(userPassword);
-		System.out.println(userRealName);
-
 		// after having the necessary information, verify that user does not exist
 		// if user does not exist, then allow signup, other wise prompt user to change
 		// their name
+		
+		
+		//after having the necessary information, verify that user does not exist
+		//if user does not exist, then allow signup, other wise prompt user to change their name
+
 		UserValidation userValidator = new UserValidation();
 		SystemUser newsystemuser = new SystemUser(userRealName, userName, userPassword);
 

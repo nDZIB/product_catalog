@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import connection.ConnectionManager;
 
+
 @WebServlet(urlPatterns = "/login.pcat")
 public class UserLogin extends HttpServlet{
 	
@@ -20,10 +21,6 @@ public class UserLogin extends HttpServlet{
 	 */
 	private static final long serialVersionUID = 1L;
 
-
-	//get the username and password,
-	//authenticate the user
-	//grant access to explicit view otherwise keep them in basic view
 	@Override
 	protected void doPost(HttpServletRequest requestVariable, HttpServletResponse responseVariable) 
 		throws ServletException, IOException {
