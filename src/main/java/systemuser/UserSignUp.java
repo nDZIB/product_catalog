@@ -14,6 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 public class UserSignUp extends HttpServlet{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+
 	@Override
 	protected void doGet(HttpServletRequest requestVariable, HttpServletResponse responseVariable)
 		throws ServletException, IOException {
@@ -28,10 +37,6 @@ public class UserSignUp extends HttpServlet{
 		String userPassword = requestVariable.getParameter("userPassword");
 		String userRealName = requestVariable.getParameter("userRealName");
 		
-		
-		System.out.println(userName);
-		System.out.println(userPassword);
-		System.out.println(userRealName);
 		
 		//after having the necessary information, verify that user does not exist
 		//if user does not exist, then allow signup, other wise prompt user to change their name
