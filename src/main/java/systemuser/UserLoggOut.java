@@ -21,6 +21,7 @@ public class UserLoggOut extends HttpServlet {
 		//remove the user from session and redirect them to the view-catalog
 		if(requestVariable.getSession().getAttribute("userName") != null)
 			requestVariable.getSession().removeAttribute("userName");
+		requestVariable.getSession().invalidate();
 		//redirect
 		responseVariable.sendRedirect("/view-catalog.pcat");
 	}
