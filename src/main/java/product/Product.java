@@ -1,19 +1,35 @@
 package product;
 
+import java.util.Base64;
+
 import category.Category;
 
 public class Product extends Category{
 	private String productName;
 	private String productDescription;
 	private String productColor;
+	private byte[] productView;
+	private String img;
 	
-	//constructor
+	//first constructor
 	public Product(String categoryName, String categoryDescription, String productName, String productDescription,
 			String productColor) {
 		super(categoryName, categoryDescription);
 		this.productName = productName;
 		this.productDescription = productDescription;
 		this.productColor = productColor;
+		this.productView = null;
+	}
+
+	//constructor with images inclusive
+	public Product(String categoryName, String categoryDescription, String productName, String productDescription,
+			String productColor, byte[] productVew) {
+		super(categoryName, categoryDescription);
+		this.productName = productName;
+		this.productDescription = productDescription;
+		this.productColor = productColor;
+		this.productView = productVew;
+		this.img = Base64.getEncoder().encodeToString(productVew);
 	}
 
 	//getters
@@ -40,6 +56,17 @@ public class Product extends Category{
 
 	public void setProductColor(String productColor) {
 		this.productColor = productColor;
+	}
+
+	public byte[] getProductView() {
+		return productView;
+	}
+	public String getImg() {
+		return img;
+	}
+
+	public void setProductView(byte[] productView) {
+		this.productView = productView;
 	}
 	
 	

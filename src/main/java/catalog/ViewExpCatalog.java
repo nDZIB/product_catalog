@@ -84,6 +84,8 @@ public class ViewExpCatalog extends HttpServlet{
 				requestVariable.getRequestDispatcher("/WEB-INF/views/view-exp-catalog.jsp").forward(requestVariable, responseVariable);	
 			} else {//if there are no products to display
 				System.out.println("No products to display");
+				
+				
 			}
 		} else {//else if the connection to the database was unsuccessful
 			System.out.println("Unable to connect to database");

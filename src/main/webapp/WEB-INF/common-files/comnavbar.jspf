@@ -9,7 +9,7 @@
 				Category</a></li>
 	</ul>
 	<ul class="nav navbar-right">
-		<li><a href="/logout.do">Logout</a></li>
+		<li><a href="/logout.pcat">Logout</a></li>
 	</ul>
 </nav>
 <nav class="nav navabar"></nav>

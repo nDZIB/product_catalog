@@ -9,12 +9,13 @@
 <link rel="stylesheet" href="/WEB-INF/views/main.css">
 <style>
 .footer {
-	padding: 15px;
+	padding: 5px;
 	position: fixed;
 	bottom: 0;
 	width: 100%;
 	height: auto;
 	background-color: orange;
+	
 }
 
 ul.nav>li {
@@ -22,6 +23,6 @@ ul.nav>li {
 }
 
 body {
-	background-color: yellow;
+	/*background-color: yellow;*/
 }
 </style>

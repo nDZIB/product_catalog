@@ -9,20 +9,25 @@
 	<%@ include file="../common-files/comnavbar.jspf"%>
 	<div class="container">
 		<h1>Here is our catalog</h1>
-		<br>
-		<ul>
+		
+		<br>	
+		
+		<ul class = "container">
 			<sc:forEach items="${products}" var="product">
-				<li>${product.productName}&nbsp;&nbsp;
-					${product.productColor}&nbsp;&nbsp; ${product.productDescription}
-					&nbsp;&nbsp; ${product.categoryName} &nbsp;&nbsp;
-					${product.categoryDescription} &nbsp;&nbsp;<br>
-				</li>
+			<div class ="col-md-3"><img src="data:image/jpeg;base64,${product.img}" name ="productView" height = "100px"/>
+			<hr>
+				Name:&nbsp;<b>${product.productName}&nbsp;&nbsp;</b><br>
+					Color:&nbsp;${product.productColor}&nbsp;&nbsp;<br>
+					<small> ${product.productDescription}</small>
+					Category:&nbsp; ${product.categoryName} &nbsp;<br>
+					Category Description&nbsp;<small>${product.categoryDescription} &nbsp;&nbsp;</small>
+					<hr><br>
+				</div>	
+				
 			</sc:forEach>
 		</ul>
-		<br> <br> <br>
-		<div>
 			<a href="/user-signup.pcat">Sign Up for account</a>
-			<form action="/login.pcat" method="POST">
+			<form action="/login.pcat" method="POST" class ="sign-in-form">
 				<fieldset>
 					<legend>Login</legend>
 					<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
@@ -32,7 +37,6 @@
 				</fieldset>
 			</form>
 		</div>
-	</div>
 	<%@ include file="../common-files/comfooter.jspf"%>
 </body>
 </html>

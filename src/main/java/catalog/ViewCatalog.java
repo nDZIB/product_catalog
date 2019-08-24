@@ -42,7 +42,6 @@ public class ViewCatalog extends HttpServlet{
 			//if the connection was successful
 			//put the connection into session
 			requestVariable.getSession().setAttribute("dbconnection", databaseConnection);
-			requestVariable.getSession().setMaxInactiveInterval(10);//after this x seconds, user is logged out
 			
 			products = catalogMService.getProducts(databaseConnection);
 			if(products.size() != 0) {

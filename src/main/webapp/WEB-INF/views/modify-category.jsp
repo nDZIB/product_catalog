@@ -11,8 +11,8 @@
 		<form action="/modify-category.pcat" method="post">
 			<a href="#">add as New</a><br> <input type="text"
 				value="${category.categoryName}" name="newCategoryName"><br>
-			<input type="text" value="${category.categoryDescription}"
-				name="newCategoryDescription"><br> <input type="submit"
+			<textarea value="${category.categoryDescription}"
+				name="newCategoryDescription"><br></textarea> <input type="submit"
 				value="Save" name="editCategory">&nbsp; <input type="submit"
 				value="Delete" name="deleteCategory"> <input type="submit"
 				value="Add as new" name="addNewCategory">

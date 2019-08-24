@@ -17,7 +17,7 @@ public class CatalogManagementService {
 
 		try {
 			PreparedStatement dbManipulate = databaseConnection
-					.prepareStatement("SELECT " + "productName, productDescription, productColor, categoryName, "
+					.prepareStatement("SELECT " + "productName, productView, productDescription, productColor, categoryName, "
 							+ "categoryDescription FROM product INNER JOIN category WHERE "
 							+ "product.categoryID = category.categoryID");
 
@@ -29,13 +29,15 @@ public class CatalogManagementService {
 			// obtain list of products and add to a list
 			while (setOfProducts.next()) {
 				String productName = setOfProducts.getString(1);
-				String productDescription = setOfProducts.getString(2);
-				String productColor = setOfProducts.getString(3);
-				String categoryName = setOfProducts.getString(4);
-				String categoryDescription = setOfProducts.getString(5);
+				byte[] productView = setOfProducts.getBytes(2);
+				String productDescription = setOfProducts.getString(3);
+				String productColor = setOfProducts.getString(4);
+				String categoryName = setOfProducts.getString(5);
+				String categoryDescription = setOfProducts.getString(6);
+				
 				// instantiate a product object
 				Product product = new Product(categoryName, categoryDescription, productName, productDescription,
-						productColor);
+						productColor, productView);
 
 				// add to list
 				products.add(product);
