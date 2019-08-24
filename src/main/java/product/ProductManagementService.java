@@ -77,14 +77,14 @@ public class ProductManagementService {
 			InputStream productView) {
 		try {
 			PreparedStatement pst2 = dbconnection.prepareStatement("UPDATE product SET categoryID = ?, productName = ?, "
-					+ "productDescription = ?, SET productView = ?" + " productColor = ? WHERE productID = ?");
+					+ "productDescription = ?, productView = ?, productColor = ? WHERE productID = ?");
 			
 			
 			pst2.setInt(1, newcategoryID);
 			pst2.setString(2, newproduct.getProductName());
 			pst2.setString(3, newproduct.getProductDescription());
+			//pst2.setBlob(4, productView);
 			pst2.setBlob(4, productView);
-			pst2.setBinaryStream(4, productView, 202875);
 			pst2.setString(5, newproduct.getProductColor());
 			pst2.setInt(6, oldproductID);
 

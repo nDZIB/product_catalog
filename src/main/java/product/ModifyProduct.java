@@ -143,7 +143,9 @@ public class ModifyProduct extends HttpServlet {
 
 		// get relevent categoryID
 		Product oldProduct = (Product) requestVariable.getSession().getAttribute("product");
-
+		
+		Part part = requestVariable.getPart("productView");
+		InputStream productView = null;
 		categoryID = productMService.getCategoryID(dbconnection, oldProduct);// get categoryID of old product
 		productID = productMService.getProductID(dbconnection, oldProduct);// get productID of old product
 
@@ -154,22 +156,22 @@ public class ModifyProduct extends HttpServlet {
 				newcategoryID = categoryMService.getCategoryID(dbconnection, category);// get the categoryid of the
 																						// new product
 				if (newcategoryID != 0) {// if the new product has a category
-//					if (part != null) {// if the user selects a file
-//						productView = part.getInputStream();
-//						if (productView != null) {// if there is an image, edit the product, considering the image
-//							productMService.editProduct(dbconnection, product, newcategoryID, productID, productView);
-//						}
-//					} else
+					if (part != null) {// if the user selects a file
+						productView = part.getInputStream();
+						if (productView != null) {// if there is an image, edit the product, considering the image
+							productMService.editProduct(dbconnection, product, newcategoryID, productID, productView);
+						}
+					} else
 						productMService.editProduct(dbconnection, product, newcategoryID, productID);
 				} else {// otherwise if the category does not exist, add it and proceed
-//					if (part != null) {// if the user selects a file
-//						productView = part.getInputStream();
-//						if (productView != null) {// and the file is a valid image file, add the new product with its
-//													// image
-//							this.addProductAndCategory(categoryMService, oldProduct, productMService, category,
-//									dbconnection, productView);
-//						}
-//					} else
+					if (part != null) {// if the user selects a file
+						productView = part.getInputStream();
+						if (productView != null) {// and the file is a valid image file, add the new product with its
+													// image
+							this.addProductAndCategory(categoryMService, oldProduct, productMService, category,
+									dbconnection, productView);
+						}
+					} else
 						this.addProductAndCategory(categoryMService, oldProduct, productMService, category,
 								dbconnection);
 				}
