@@ -1,4 +1,4 @@
-package product;
+package com.product;
 
 import java.io.InputStream;
 import java.sql.Connection;

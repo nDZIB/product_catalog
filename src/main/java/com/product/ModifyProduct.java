@@ -1,4 +1,4 @@
-package product;
+package com.product;
 
 
 import java.io.IOException;
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import category.Category;
-import category.CategoryManagementService;
+import com.category.Category;
+import com.category.CategoryManagementService;
 
 @WebServlet(urlPatterns = "/modify-product.pcat")
 @MultipartConfig(maxFileSize = 16177215)

@@ -1,4 +1,4 @@
-package category;
+package com.category;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,7 +48,7 @@ public class CategoryManagementService {
 	public boolean addNewCategory(Connection dbconnection, Category newCategory) {
 		try {
 			PreparedStatement pst = dbconnection.prepareStatement(
-					"INSERT IGNORE INTO category(categoryName, " + "categoryDescription) VALUES(?,?)");
+					"INSERT IGNORE INTO category(categoryName, categoryDescription) VALUES(?,?)");
 
 			// set the parameters
 			pst.setString(1, newCategory.getCategoryName());

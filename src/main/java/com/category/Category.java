@@ -1,4 +1,4 @@
-package category;
+package com.category;
 
 public class Category {
 	private String categoryName;
@@ -31,4 +31,9 @@ public class Category {
 		return String.format("[Name]: %s [which:] %s", this.categoryName, this.categoryDescription);
 	}
 	
+	public boolean categoryIsComplete() {
+		if(this.categoryName == null || this.categoryName.isEmpty())
+			return false;
+		return true;
+	}
 }

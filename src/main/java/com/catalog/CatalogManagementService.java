@@ -1,4 +1,4 @@
-package catalog;
+package com.catalog;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import product.Product;
+import com.product.Product;
 
 public class CatalogManagementService {
 	List<Product> products = new ArrayList<Product>();// list to hold all available products

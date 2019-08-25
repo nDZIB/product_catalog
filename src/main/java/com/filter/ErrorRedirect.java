@@ -1,4 +1,4 @@
-package filter;
+package com.filter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,13 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import connection.ConnectionManager;
+import com.connection.ConnectionManager;
 
 @WebServlet(urlPatterns = "/error-redirect.pcat")
 @MultipartConfig(maxFileSize = 16177215) 
 public class ErrorRedirect extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Connection databaseConnection;
-	private ConnectionManager dataSource = new ConnectionManager();
     // content=blob, name=varchar(255) UNIQUE.
     private static final String SQL_FIND = "SELECT img_data FROM trn_imgs WHERE img_title = ?";
 

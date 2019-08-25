@@ -1,8 +1,8 @@
-package product;
+package com.product;
 
 import java.util.Base64;
 
-import category.Category;
+import com.category.Category;
 
 public class Product extends Category{
 	private String productName;

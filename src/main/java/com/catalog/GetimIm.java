@@ -1,4 +1,4 @@
-package catalog;
+package com.catalog;
 
 import java.io.IOException;
 

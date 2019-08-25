@@ -1,4 +1,4 @@
-package catalog;
+package com.catalog;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import product.Product;
+import com.product.Product;
 
 
 

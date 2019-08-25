@@ -1,4 +1,4 @@
-package systemuser;
+package com.systemuser;
 
 public class CurrentSystemUser {
 	String userName;

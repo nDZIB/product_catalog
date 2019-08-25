@@ -1,4 +1,4 @@
-package systemuser;
+package com.systemuser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
