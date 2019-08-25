@@ -62,15 +62,21 @@ public class LogCurrentSystemUserIn extends HttpServlet{
 		String userName = (String)requestVariable.getAttribute("userName");
 		String userPassword = (String)requestVariable.getAttribute("userPassword");
 		
+		CurrentSystemUser currentSystemUser = new CurrentSystemUser(userName, userPassword);
+		
 		System.out.println(userName);
 		System.out.println(userPassword);
-		UserAuthenticationService userValidator = new UserAuthenticationService();
-		boolean userExists = userValidator.userExists(dbconnection, userName, userPassword);
-		if(userExists) {
+		UserAuthenticationService userAuthenticator = new UserAuthenticationService();
+		
+		boolean userIsSignedUp = false;
+		if(currentSystemUser.isComplete()) //if the current user is valid, then verify if they have signed up
+			userIsSignedUp = userAuthenticator.userExists(dbconnection, currentSystemUser.getUserName(), currentSystemUser.getUserPassword());
+		
+		if(userIsSignedUp) {
+			requestVariable.getSession().setMaxInactiveInterval(60);//user is logged out after 1 minute of inactivity
 			requestVariable.getSession().setAttribute("userName", userName);
-			requestVariable.getSession().setMaxInactiveInterval(60);
 			responseVariable.sendRedirect("/view-exp-catalog.pcat");
-		} else {//if the user does not exist, keep user in view-catalog
+		} else {//if the user has not signed up for an account, keep user in view-catalog
 			responseVariable.sendRedirect("/view-catalog.pcat");
 		}
 		
