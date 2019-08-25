@@ -15,7 +15,7 @@ import connection.ConnectionManager;
 
 
 
-public class UserSignUp extends HttpServlet{
+public class SignUpNewSystemUser extends HttpServlet{
 	
 
 	/**
@@ -52,7 +52,7 @@ public class UserSignUp extends HttpServlet{
 		//after having the necessary information, verify that user does not exist
 		//if user does not exist, then allow signup, other wise prompt user to change their name
 
-		UserValidation userValidator = new UserValidation();
+		UserAuthenticationService userValidator = new UserAuthenticationService();
 		NewSystemUser newsystemuser = new NewSystemUser(userRealName, userName, userPassword);
 
 		boolean userISSignedUp = userValidator.signupUser(dbconnection, newsystemuser);

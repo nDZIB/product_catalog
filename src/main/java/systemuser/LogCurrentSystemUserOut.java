@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet (urlPatterns ="/logout.pcat")
-public class UserLoggOut extends HttpServlet {
+public class LogCurrentSystemUserOut extends HttpServlet {
 	/**
 	 * 
 	 */
@@ -18,9 +18,8 @@ public class UserLoggOut extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest requestVariable, HttpServletResponse responseVariable) 
 		throws ServletException, IOException {
-		//remove the user from session and redirect them to the view-catalog
-		if(requestVariable.getSession().getAttribute("userName") != null)
-			requestVariable.getSession().removeAttribute("userName");
+		
+		//invalidate the current session
 		requestVariable.getSession().invalidate();
 		//redirect
 		responseVariable.sendRedirect("/view-catalog.pcat");

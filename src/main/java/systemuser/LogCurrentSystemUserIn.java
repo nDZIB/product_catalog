@@ -13,7 +13,7 @@ import connection.ConnectionManager;
 
 
 @WebServlet(urlPatterns = "/login.pcat")
-public class UserLogin extends HttpServlet{
+public class LogCurrentSystemUserIn extends HttpServlet{
 	
 	
 	/**
@@ -32,7 +32,7 @@ public class UserLogin extends HttpServlet{
 		String userName = requestVariable.getParameter("userName");
 		String userPassword = requestVariable.getParameter("userPassword");
 		
-		UserValidation userValidator = new UserValidation();
+		UserAuthenticationService userValidator = new UserAuthenticationService();
 		
 		CurrentSystemUser currentSystemUser = new CurrentSystemUser(userName, userPassword);
 		boolean userExists = false;//assume the user does not exist
@@ -64,7 +64,7 @@ public class UserLogin extends HttpServlet{
 		
 		System.out.println(userName);
 		System.out.println(userPassword);
-		UserValidation userValidator = new UserValidation();
+		UserAuthenticationService userValidator = new UserAuthenticationService();
 		boolean userExists = userValidator.userExists(dbconnection, userName, userPassword);
 		if(userExists) {
 			requestVariable.getSession().setAttribute("userName", userName);
