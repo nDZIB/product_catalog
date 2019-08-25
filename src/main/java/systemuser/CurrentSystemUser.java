@@ -24,7 +24,7 @@ public class CurrentSystemUser {
 		this.userPassword = userPassword;
 	}
 	
-	//method checks that user has a username and password
+	//method checks that user has a password set. only password because if no user name is provided, then the userrealname will be assumed
 	public boolean isComplete() {
 		if(this.userName == null || this.userPassword == null || this.userName.isEmpty() || this.userPassword.isEmpty())
 			return false;

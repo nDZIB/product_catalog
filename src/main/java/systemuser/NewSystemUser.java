@@ -8,8 +8,6 @@ public class NewSystemUser extends CurrentSystemUser{
 	public NewSystemUser(String userRealName, String userName, String userPassword) {
 		super(userName, userPassword);
 		this.userRealName = userRealName;
-		this.userName = userName;
-		this.userPassword = userPassword;
 	}
 	
 	
@@ -24,6 +22,11 @@ public class NewSystemUser extends CurrentSystemUser{
 		this.userRealName = userRealName;
 	}
 	
-
-
+	@Override
+	public boolean isComplete() {
+			if(this.userRealName != null && !this.userRealName.isEmpty() && this.userPassword != null && !this.userPassword.isEmpty())
+										//if the user has a real name and a password
+				return true;//then they are complete
+		return true;
+	}
 }

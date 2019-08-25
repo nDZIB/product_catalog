@@ -46,24 +46,23 @@ public class SignUpNewSystemUser extends HttpServlet{
 
 		// after having the necessary information, verify that user does not exist
 		// if user does not exist, then allow signup, other wise prompt user to change
-		// their name
+		// their name or password
 		
 		
-		//after having the necessary information, verify that user does not exist
-		//if user does not exist, then allow signup, other wise prompt user to change their name
 
-		UserAuthenticationService userValidator = new UserAuthenticationService();
+		UserAuthenticationService userAuthenticator = new UserAuthenticationService();
 		NewSystemUser newsystemuser = new NewSystemUser(userRealName, userName, userPassword);
 
-		boolean userISSignedUp = userValidator.signupUser(dbconnection, newsystemuser);
-
-		// if the user is succesfully signed up, log them in// or give them forum to log
-		// in
+		boolean userISSignedUp = false;
+		//check whether or not the user is already Signed up
+		
+		if(!userAuthenticator.userExists(dbconnection, newsystemuser.getUserName(), newsystemuser.getUserPassword()))//user doesn not exist
+			userISSignedUp = userAuthenticator.signupUser(dbconnection, newsystemuser);//then sign them up
+		
+		
 		if (userISSignedUp) {// if the user is successfully signed up
 			System.out.println("signed up");
-
-			// UserValidation userValidator = new UserValidation();
-			boolean userExists = userValidator.userExists(dbconnection, userName, userPassword);
+			boolean userExists = userAuthenticator.userExists(dbconnection, userName, userPassword);//then log them in
 			if (userExists) {
 				requestVariable.getSession().setAttribute("userName", userName);
 				responseVariable.sendRedirect("/view-exp-catalog.pcat");
@@ -75,8 +74,6 @@ public class SignUpNewSystemUser extends HttpServlet{
 		} else {// send them back to sign up, if they were not successfully signed up
 
 			responseVariable.sendRedirect("/user-signup.pcat");
-			// requestVariable.getRequestDispatcher("/WEB-INF/views/user-signup.jsp").forward(requestVariable,
-			// responseVariable);
 		}
 	}
 
