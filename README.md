@@ -15,9 +15,9 @@ this application manages a collection of products in a shop
    3. To login, fill the form at the base of the page appropriately. For a test, a currently registered user is "ndzib" with password "ndzib". Or you could create a new account by clicking on the link above the login form and in turn filling in the requested data.
         NB. when signing up, the user name (second field) is optional, but if left out, the user's real name will be assumed as the username as well.
         
-   4 Once logged in, a user can have access to explicit view of the shop's products, and for each product, clicking on the "modify" button below it, permits the logged in user to change any parameter of the product as they so desire, and either save the changes to the product by clicking on the "add" button, delete the product by clicking on the "delete" button or save the edited product as a completely new product by clicking on the "add as new" button (these operations go same for modifying a category).
+   4.  Once logged in, a user can have access to explicit view of the shop's products, and for each product, clicking on the "modify" button below it, permits the logged in user to change any parameter of the product as they so desire, and either save the changes to the product by clicking on the "add" button, delete the product by clicking on the "delete" button or save the edited product as a completely new product by clicking on the "add as new" button (these operations go same for modifying a category).
     
-   5 After performing whatever operations, a logged in user can logout by simply clicking on the "log out" button at the top right side of the application's interface.
+   5.  After performing whatever operations, a logged in user can logout by simply clicking on the "log out" button at the top right side of the application's interface.
     
     
  
