@@ -25,7 +25,7 @@ public class UserValidation {
 	}
 	
 	//method to insert a new user
-	public boolean signupUser(Connection dbconnection, SystemUser systemuser) {
+	public boolean signupUser(Connection dbconnection, NewSystemUser systemuser) {
 		
 		boolean userexists = userExists(dbconnection, systemuser.getUserName(), systemuser.getUserPassword());
 		if(!userexists) {//if the current user does not exist, then add them

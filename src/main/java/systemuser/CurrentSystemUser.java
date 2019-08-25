@@ -1,11 +1,11 @@
 package systemuser;
 
-public class SignedUpSystemUser {
+public class CurrentSystemUser {
 	String userName;
 	String userPassword;
 	
 	
-	public SignedUpSystemUser(String userName, String userPassword) {
+	public CurrentSystemUser(String userName, String userPassword) {
 		this.userName = userName;
 		this.userPassword = userPassword;
 	}
@@ -22,5 +22,12 @@ public class SignedUpSystemUser {
 	}
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
+	}
+	
+	//method checks that user has a username and password
+	public boolean isComplete() {
+		if(this.userName == null || this.userPassword == null || this.userName.isEmpty() || this.userPassword.isEmpty())
+			return false;
+		return true;
 	}
 }

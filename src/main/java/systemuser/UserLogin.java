@@ -33,10 +33,16 @@ public class UserLogin extends HttpServlet{
 		String userPassword = requestVariable.getParameter("userPassword");
 		
 		UserValidation userValidator = new UserValidation();
-		boolean userExists = userValidator.userExists(dbconnection, userName, userPassword);
-		if(userExists) {
+		
+		CurrentSystemUser currentSystemUser = new CurrentSystemUser(userName, userPassword);
+		boolean userExists = false;//assume the user does not exist
+		if(currentSystemUser.isComplete()) {//if the current user has a name and password
+			userExists = userValidator.userExists(dbconnection, currentSystemUser.getUserName(), currentSystemUser.getUserPassword());// then verify that the user has signed up
+		}
+		
+		if(userExists) {//if the current user exists, grant them access to the system
 			requestVariable.getSession().setMaxInactiveInterval(60);
-			requestVariable.getSession().setAttribute("userName", userName);
+			requestVariable.getSession().setAttribute("userName", currentSystemUser.getUserPassword());
 			responseVariable.sendRedirect("/view-exp-catalog.pcat");
 		} else {//if the user does not exist, keep user in view-catalog
 			responseVariable.sendRedirect("/view-catalog.pcat");

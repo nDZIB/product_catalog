@@ -53,7 +53,7 @@ public class UserSignUp extends HttpServlet{
 		//if user does not exist, then allow signup, other wise prompt user to change their name
 
 		UserValidation userValidator = new UserValidation();
-		SystemUser newsystemuser = new SystemUser(userRealName, userName, userPassword);
+		NewSystemUser newsystemuser = new NewSystemUser(userRealName, userName, userPassword);
 
 		boolean userISSignedUp = userValidator.signupUser(dbconnection, newsystemuser);
 
