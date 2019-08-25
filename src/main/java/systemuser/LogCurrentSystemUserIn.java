@@ -32,9 +32,10 @@ public class LogCurrentSystemUserIn extends HttpServlet{
 		String userName = requestVariable.getParameter("userName");
 		String userPassword = requestVariable.getParameter("userPassword");
 		
+		CurrentSystemUser currentSystemUser = new CurrentSystemUser(userName, userPassword);
+		
 		UserAuthenticationService userValidator = new UserAuthenticationService();
 		
-		CurrentSystemUser currentSystemUser = new CurrentSystemUser(userName, userPassword);
 		boolean userExists = false;//assume the user does not exist
 		if(currentSystemUser.isComplete()) {//if the current user has a name and password
 			userExists = userValidator.userExists(dbconnection, currentSystemUser.getUserName(), currentSystemUser.getUserPassword());// then verify that the user has signed up
