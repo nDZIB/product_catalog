@@ -12,14 +12,14 @@
 		<div class = "container">
 		<nav class="navbar navbar-right">
 			<ul class="nav navbar-nav">
-				<li><a
-					href="/modify-category.pcat?categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}">
+				<li>
+				<a href ="/view-exp-categories.pcat">Product Categories</a>
+				<!-- <a href="/modify-category.pcat?categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}">
 						Modify Category</a></li>
 				<li><a
 					href="/modify-product.pcat?productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
 				">Modify
-						Product</a></li>
-
+						Product</a></li> -->
 			</ul>
 		</nav>
 		</div>

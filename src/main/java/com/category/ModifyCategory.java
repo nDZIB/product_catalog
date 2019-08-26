@@ -75,6 +75,6 @@ public class ModifyCategory extends HttpServlet {
 			}
 		}
 		requestVariable.getSession().removeAttribute("category");//remove the old category from session after performing relevant operation
-		responseVariable.sendRedirect("/view-exp-catalog.pcat");//and return the user to be able to explicitly view products
+		responseVariable.sendRedirect("/view-exp-categories.pcat");//and return the user to be able to explicitly view products
 	}
 }

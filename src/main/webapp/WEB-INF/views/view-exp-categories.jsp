@@ -11,18 +11,21 @@
 		<h1>Here is our catalog</h1>
 		
 		<br>	
-		<ul class = "container"><li><a href="/view-categories.pcat">Product Categories</a></li></ul>
+		<ul>
+			<li><a href = "/view-exp-catalog.pcat">Product Catalog</a>
+		</ul>
 		<ul class = "container">
-			<sc:forEach items="${products}" var="product">
-			<div class ="col-md-3"><img src="data:image/jpeg;base64,${product.img}" name ="productView" height = "100px"/>
+			<sc:forEach items="${category}" var="cat">
 			<hr>
-				Name:&nbsp;<b>${product.productName}&nbsp;&nbsp;</b><br>
-					Color:&nbsp;${product.productColor}&nbsp;&nbsp;<br>
-					<small> ${product.productDescription}</small>
-					Category:&nbsp; ${product.categoryName} &nbsp;<br>
-					Category Description&nbsp;<small>${product.categoryDescription} &nbsp;&nbsp;</small>
-					<hr><br>
-				</div>	
+				<ul class="nav navbar-nav">
+				<li>
+					Category Name:${cat.categoryName}<br>
+					Category Description: ${cat.categoryDescription}<br>
+				</li>
+				<li><a
+					href="/modify-category.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">
+						Modify Category</a></li>
+				</ul>
 				
 			</sc:forEach>
 		</ul>
