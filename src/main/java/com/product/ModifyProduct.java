@@ -1,6 +1,5 @@
 package com.product;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -33,7 +32,7 @@ public class ModifyProduct extends HttpServlet {
 		String productColor = requestVariable.getParameter("productColor");
 		String categoryName = requestVariable.getParameter("categoryName");
 		String categoryDescription = requestVariable.getParameter("categoryDescription");
-		//String pict = requestVariable.getParameter("productView");
+		// String pict = requestVariable.getParameter("productView");
 
 		Product product = new Product(categoryName, categoryDescription, productName, productDescription, productColor);
 
@@ -53,8 +52,6 @@ public class ModifyProduct extends HttpServlet {
 		ProductManagementService productMService = new ProductManagementService();
 		CategoryManagementService categoryMService = new CategoryManagementService();
 
-	     
-	     
 		Connection dbconnection = (Connection) requestVariable.getSession().getAttribute("dbconnection");
 		// redirect to the page to modify products
 		if (requestVariable.getParameter("editProduct") != null) {// code to execute if user wishes to edit product
@@ -103,15 +100,16 @@ public class ModifyProduct extends HttpServlet {
 					productMService.addProduct(dbconnection, product, foundID, productView);
 				else // add new product without image
 					productMService.addProduct(dbconnection, product, foundID);
-			} //assumption here then is that all valid files are images
+			} // assumption here then is that all valid files are images
 //			else {// if the no image was provided, add the new product without an image
 //				productMService.addProduct(dbconnection, product, foundID);
 //			}
 
 		} else {// otherwise if the category does not exist, add it and proceed
-			if(part != null) 
-				if((productView=part.getInputStream()) != null)//if there is a picture supplied
-					this.addProductAndCategory(categoryMService, product, productMService, category, dbconnection, productView);
+			if (part != null)
+				if ((productView = part.getInputStream()) != null)// if there is a picture supplied
+					this.addProductAndCategory(categoryMService, product, productMService, category, dbconnection,
+							productView);
 				else
 					this.addProductAndCategory(categoryMService, product, productMService, category, dbconnection);
 		}
@@ -143,7 +141,7 @@ public class ModifyProduct extends HttpServlet {
 
 		// get relevent categoryID
 		Product oldProduct = (Product) requestVariable.getSession().getAttribute("product");
-		
+
 		Part part = requestVariable.getPart("productView");
 		InputStream productView = null;
 		categoryID = productMService.getCategoryID(dbconnection, oldProduct);// get categoryID of old product
@@ -156,13 +154,19 @@ public class ModifyProduct extends HttpServlet {
 				newcategoryID = categoryMService.getCategoryID(dbconnection, category);// get the categoryid of the
 																						// new product
 				if (newcategoryID != 0) {// if the new product has a category
-					if (part != null) {// if the user selects a file
+					if (part.getSize() == 0) {// if the user selects no file
+						productMService.editProduct(dbconnection, product, newcategoryID, productID);
+						System.out.println("No image inserted");
+					} else {
 						productView = part.getInputStream();
 						if (productView != null) {// if there is an image, edit the product, considering the image
 							productMService.editProduct(dbconnection, product, newcategoryID, productID, productView);
+						} else {
+							productMService.editProduct(dbconnection, product, newcategoryID, productID);
+							System.out.println("No image inserted");
 						}
-					} else
-						productMService.editProduct(dbconnection, product, newcategoryID, productID);
+					}
+
 				} else {// otherwise if the category does not exist, add it and proceed
 					if (part != null) {// if the user selects a file
 						productView = part.getInputStream();
