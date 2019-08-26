@@ -168,14 +168,14 @@ public class ModifyProduct extends HttpServlet {
 					}
 
 				} else {// otherwise if the category does not exist, add it and proceed
-					if (part != null) {// if the user selects a file
+					if (part.getSize() != 0) {// if the user selects a file
 						productView = part.getInputStream();
 						if (productView != null) {// and the file is a valid image file, add the new product with its
 													// image
 							this.addProductAndCategory(categoryMService, oldProduct, productMService, category,
 									dbconnection, productView);
 						}
-					} else
+					} else // the file is not a valid image file
 						this.addProductAndCategory(categoryMService, oldProduct, productMService, category,
 								dbconnection);
 				}
