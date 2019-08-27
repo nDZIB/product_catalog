@@ -22,14 +22,16 @@
 			<label>Category Description: &nbsp;</label><input type="text"
 				value="${product.categoryDescription}" name="newCategoryDescription"><br>
 			<label>Price:</label><input type="text" value="${product.productPrice}" name= "newProductPrice"><br>
+			
+			
+			<input
+				type="file" name="productView" value = "Product Preview" placeholder = "product preview" />
 
 			<input type="submit" value="Save" name="editProduct">&nbsp; 
 			<input
 				type="submit" value="Delete" name="deleteProduct"> 
 			<input
 				type="submit" value="Add as new" name="addNewProduct"> 
-			<input
-				type="file" name="productView" />
 		</form>
 	</div>
 	<%@ include file="../common-files/comfooter.jspf"%>
