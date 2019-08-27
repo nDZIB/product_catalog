@@ -13,6 +13,7 @@
 		<br>	
 		<ul>
 			<li><a href = "/view-exp-catalog.pcat">Product Catalog</a>
+			<li><a href = "/modify-category.pcat">Add new Category</a></li>
 		</ul>
 		<ul class = "container">
 			<sc:forEach items="${category}" var="cat">

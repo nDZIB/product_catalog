@@ -14,6 +14,7 @@
 			<ul class="nav navbar-nav">
 				<li>
 				<a href ="/view-exp-categories.pcat">Product Categories</a>
+				<a href ="/modify-product.pcat">Add new Product</a>
 				<!-- <a href="/modify-category.pcat?categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}">
 						Modify Category</a></li>
 				<li><a

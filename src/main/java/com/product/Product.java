@@ -79,5 +79,14 @@ public class Product extends Category{
 		this.productView = productView;
 	}
 	
-	
+	@Override
+	public boolean isComplete() {
+		if(!super.isComplete())
+			return false;
+		else {
+			if(this.productName != null || this.productPrice <= 0 || this.productName.isEmpty())
+				return false;
+		}
+		return true;
+	}
 }

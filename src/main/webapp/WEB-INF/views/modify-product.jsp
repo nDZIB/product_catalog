@@ -9,7 +9,6 @@
 	<div class="container">
 		<h1>Modify products</h1>
 
-		<img alt="${product.productName}" src="data:image/jpeg;base64,${product.img}">
 		<form action="/modify-product.pcat" method="post" enctype="multipart/form-data">
 			<a href="#">add as New</a><br> <label>Product Name:
 				&nbsp;</label><input type="text" value="${product.productName}"
@@ -24,11 +23,13 @@
 				value="${product.categoryDescription}" name="newCategoryDescription"><br>
 			<label>Price:</label><input type="text" value="${product.productPrice}" name= "newProductPrice"><br>
 
+			<input type="submit" value="Save" name="editProduct">&nbsp; 
 			<input
-				type="file" name="productView" placeholder="Product Preview" value ="5.jpg"/><br>
+				type="submit" value="Delete" name="deleteProduct"> 
 			<input
-				type="submit" value="Add" name="addNewProduct"> 
-		
+				type="submit" value="Add as new" name="addNewProduct"> 
+			<input
+				type="file" name="productView" />
 		</form>
 	</div>
 	<%@ include file="../common-files/comfooter.jspf"%>

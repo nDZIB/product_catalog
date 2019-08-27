@@ -12,8 +12,10 @@
 			<input type="text" value="${category.categoryName}"
 				name="newCategoryName"><br> <input type="text"
 				value="${category.categoryDescription}"
-				name="newCategoryDescription"><br><br><input type="submit"
-				value="Add" name="addNewCategory">
+				name="newCategoryDescription"><br> <input type="submit"
+				value="Save" name="editCategory">&nbsp; <input type="submit"
+				value="Delete" name="deleteCategory"> <input type="submit"
+				value="Add as new" name="addNewCategory">
 		</form>
 	</div>
 	<%@ include file="../common-files/comfooter.jspf"%>

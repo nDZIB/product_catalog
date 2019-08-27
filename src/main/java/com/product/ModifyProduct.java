@@ -27,6 +27,10 @@ public class ModifyProduct extends HttpServlet {
 	public void doGet(HttpServletRequest requestVariable, HttpServletResponse responseVariable)
 			throws ServletException, IOException {
 
+		if(requestVariable.getParameter("productPrice") == null)
+			requestVariable.getRequestDispatcher("/WEB-INF/views/add-new-product.jsp").forward(requestVariable,
+					responseVariable);
+		else {
 		String productName = requestVariable.getParameter("productName");
 		String productDescription = requestVariable.getParameter("productDescription");
 		String productColor = requestVariable.getParameter("productColor");
@@ -37,6 +41,7 @@ public class ModifyProduct extends HttpServlet {
 
 
 		Product product = new Product(categoryName, categoryDescription, productName, productDescription, productColor, productPrice);
+		
 		// set the current product as session variable, this is to enable it to be
 		// accessible even after
 		// this request
@@ -45,6 +50,7 @@ public class ModifyProduct extends HttpServlet {
 		// redirect to the page to modify products
 		requestVariable.getRequestDispatcher("/WEB-INF/views/modify-product.jsp").forward(requestVariable,
 				responseVariable);
+		}
 	}
 
 	@Override

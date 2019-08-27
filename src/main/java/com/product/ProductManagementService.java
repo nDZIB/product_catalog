@@ -124,13 +124,13 @@ public class ProductManagementService {
 		PreparedStatement pst;
 		try {
 			pst = dbconnection.prepareStatement("INSERT IGNORE INTO product(categoryID, productName, productPrice, "
-					+ "productDescription, productColor) VALUES(?,?,?,?)");
+					+ "productDescription, productColor) VALUES(?,?,?,?,?)");
 
 			pst.setInt(1, categoryID);
 			pst.setString(2, product.getProductName());
 			pst.setInt(3, product.getProductPrice());
-			pst.setString(3, product.getProductDescription());
-			pst.setString(4, product.getProductColor());
+			pst.setString(4, product.getProductDescription());
+			pst.setString(5, product.getProductColor());
 
 			// execute the query
 			pst.executeUpdate();
@@ -147,7 +147,7 @@ public class ProductManagementService {
 		try {
 			pst = dbconnection.prepareStatement(
 					"INSERT IGNORE INTO product(categoryID, productName, productPrice, productView, productDescription,"
-							+ " productColor) VALUES(?,?,?,?,?)");
+							+ " productColor) VALUES(?,?,?,?,?,?)");
 
 			pst.setInt(1, categoryID);
 			pst.setString(2, product.getProductName());
