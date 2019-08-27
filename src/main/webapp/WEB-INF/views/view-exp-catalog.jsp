@@ -38,7 +38,7 @@
 						${product.productDescription}</small> Category:&nbsp;
 					${product.categoryName} &nbsp;<br> Category Description&nbsp;<small>${product.categoryDescription}
 						&nbsp;&nbsp;</small> <a class="btn btn-success"
-						href="/modify-product.pcat?productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
+						href="/modify-product.pcat?product=${product}&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
 				">Modify
 						Product</a>&nbsp;&nbsp;
 						<hr><br>

@@ -1,5 +1,6 @@
 package com.product;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -101,25 +102,10 @@ public class ModifyProduct extends HttpServlet {
 
 		foundID = categoryMService.getCategoryID(dbconnection, category);
 
-		if (foundID != 0) {// if the requested product category exists
-			if (part != null) {
-				productView = part.getInputStream();
-				if (productView != null) // if image exists, add the new product
-					productMService.addProduct(dbconnection, product, foundID, productView);
-				else // add new product without image
-					productMService.addProduct(dbconnection, product, foundID);
-			} // assumption here then is that all valid files are images
-//			else {// if the no image was provided, add the new product without an image
-//				productMService.addProduct(dbconnection, product, foundID);
-//			}
-
+		if (foundID != 0) {// if the requested product category exists, add the product
+			this.doAddProduct(part, productView, productMService, dbconnection, product, foundID);
 		} else {// otherwise if the category does not exist, add it and proceed
-			if (part != null)
-				if ((productView = part.getInputStream()) != null)// if there is a picture supplied
-					this.addProductAndCategory(categoryMService, product, productMService, category, dbconnection,
-							productView);
-				else
-					this.addProductAndCategory(categoryMService, product, productMService, category, dbconnection);
+			this.doAddProduct(part, productView, productMService, dbconnection, product, foundID);
 		}
 	}
 
@@ -222,6 +208,27 @@ public class ModifyProduct extends HttpServlet {
 		} else {// if the new product was not added
 			System.out.println("Could not add the product");
 			// redirect to modify-product.jsp
+		}
+	}
+	
+	//supercode to add a new product(adding the product sets a default image if no image is specified
+	public void doAddProduct(Part part, InputStream productView, ProductManagementService productMService, 
+			Connection dbconnection, Product product, int foundID) throws IOException{
+		if (part.getSize() > 0) {
+			productView = part.getInputStream();
+			if (productView != null) // if image exists, add the new product
+				productMService.addProduct(dbconnection, product, foundID, productView);
+			else {// add new product without image(a default image) this will hardly ever be executed though
+				String pat = System.getProperty("user.dir");
+				pat = pat +"\\src\\main\\resources\\def_image.png";
+				productView = new FileInputStream(pat);
+				productMService.addProduct(dbconnection, product, foundID, productView);
+			}
+		} else {
+			String pat = System.getProperty("user.dir");
+			pat = pat +"\\src\\main\\resources\\def_image.png";
+			productView = new FileInputStream(pat);
+			productMService.addProduct(dbconnection, product, foundID, productView);
 		}
 	}
 }

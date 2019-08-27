@@ -1,6 +1,9 @@
 package com.catalog;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +32,6 @@ public class ViewCatalog extends HttpServlet{
 		throws ServletException, IOException {
 		/*when the user visits the landing page, access is created to the database and the
 		the product catalog is displayed*/
-		
 		
 		List<Product> products = new ArrayList<Product>();//list to hold all available products
 		ConnectionManager connectionManager = new ConnectionManager();
