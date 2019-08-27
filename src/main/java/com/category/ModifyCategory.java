@@ -22,13 +22,19 @@ public class ModifyCategory extends HttpServlet {
 		// first, get the parameters
 		String categoryName = requestVariable.getParameter("categoryName");
 		String categoryDescription = requestVariable.getParameter("categoryDescription");
+		if (categoryName == null || categoryName.isEmpty() || categoryDescription.isEmpty()
+				|| categoryDescription == null)
+			requestVariable.getRequestDispatcher("/WEB-INF/views/add-new-category.jsp").forward(requestVariable,
+					responseVariable);
+		else {
+			Category category = new Category(categoryName, categoryDescription);
 
-		Category category = new Category(categoryName, categoryDescription);
-
-		requestVariable.getSession().setAttribute("category", category);// put the current category to be modified in
-																		// session
-		requestVariable.getRequestDispatcher("/WEB-INF/views/modify-category.jsp").forward(requestVariable,
-				responseVariable);
+			requestVariable.getSession().setAttribute("category", category);// put the current category to be modified
+																			// in
+																			// session
+			requestVariable.getRequestDispatcher("/WEB-INF/views/modify-category.jsp").forward(requestVariable,
+					responseVariable);
+		}
 	}
 
 	@Override
@@ -50,12 +56,13 @@ public class ModifyCategory extends HttpServlet {
 			Category newCategory = new Category(newCategoryName, newCategoryDescription);
 			Category oldcategory = (Category) requestVariable.getSession().getAttribute("category");
 
-			boolean categoryIsValid = newCategory.categoryIsComplete();
-			if (categoryIsValid) {
+			if (newCategory.isComplete()) {
 				if (manageCategory.editCategory(dbconnection, oldcategory, newCategory))
 					System.out.println("Category updated");
+				else 
+					System.out.println("Modify Category: Unable to update the category");
 			} else {
-				System.out.println("ModifyCategory: Category was not added, it seems all information was not provided");
+				System.out.println("ModifyCategory: Category was not modified, it seems all information was not provided");
 			}
 			
 		} else if (requestVariable.getParameter("addNewCategory") != null) {
@@ -65,16 +72,25 @@ public class ModifyCategory extends HttpServlet {
 			String newCategoryName = requestVariable.getParameter("newCategoryName").toString();
 
 			Category newCategory = new Category(newCategoryName, newCategoryDescription);
+
 			
-			boolean categoryIsComplete = newCategory.categoryIsComplete();
-			if(categoryIsComplete) {
-				if(manageCategory.addNewCategory(dbconnection, newCategory))
-					System.out.println("Modify Category: Category was modified");
+			if (newCategory.isComplete()) {
+				int catID = manageCategory.getCategoryID(dbconnection, newCategory);
+				System.out.println("category id = "+catID);
+				
+				if(catID <= 0) {//if no such category exists
+					if (manageCategory.addNewCategory(dbconnection, newCategory))
+						System.out.println("Modify Category: Category was added");
+				} else {
+					System.out.println("Modify Category: Category was added");
+				}
 			} else {
-				System.out.println("Modify Category: Category was modified");
+				System.out.println("Modify Category: Category was not added");
 			}
 		}
-		requestVariable.getSession().removeAttribute("category");//remove the old category from session after performing relevant operation
-		responseVariable.sendRedirect("/view-exp-categories.pcat");//and return the user to be able to explicitly view products
+		requestVariable.getSession().removeAttribute("category");// remove the old category from session after
+																	// performing relevant operation
+		responseVariable.sendRedirect("/view-exp-categories.pcat");// and return the user to be able to explicitly view
+																	// products
 	}
 }

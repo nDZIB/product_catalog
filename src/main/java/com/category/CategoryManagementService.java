@@ -74,11 +74,12 @@ public class CategoryManagementService {
 			pst.setString(2, category.getCategoryDescription());
 
 			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
+			if (rs.next()) {
 				return (rs.getInt(1));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return 2;
 		}
 		return 0;
 	}
