@@ -32,10 +32,11 @@ public class ModifyProduct extends HttpServlet {
 		String productColor = requestVariable.getParameter("productColor");
 		String categoryName = requestVariable.getParameter("categoryName");
 		String categoryDescription = requestVariable.getParameter("categoryDescription");
+		int productPrice = Integer.parseInt(requestVariable.getParameter("productPrice"));
 		// String pict = requestVariable.getParameter("productView");
 
-		Product product = new Product(categoryName, categoryDescription, productName, productDescription, productColor);
 
+		Product product = new Product(categoryName, categoryDescription, productName, productDescription, productColor, productPrice);
 		// set the current product as session variable, this is to enable it to be
 		// accessible even after
 		// this request
@@ -81,6 +82,7 @@ public class ModifyProduct extends HttpServlet {
 		String newProductColor = requestVariable.getParameter("newProductColor");
 		String categoryName = requestVariable.getParameter("newCategoryName");
 		String categoryDescription = requestVariable.getParameter("newCategoryDescription");
+		int productPrice = Integer.parseInt(requestVariable.getParameter("newProductPrice"));
 
 		// get the image if exists
 		Part part = requestVariable.getPart("productView");
@@ -88,7 +90,7 @@ public class ModifyProduct extends HttpServlet {
 
 		Category category = new Category(categoryName, categoryDescription);
 		Product product = new Product(categoryName, categoryDescription, newProductName, newProductDescription,
-				newProductColor);
+				newProductColor, productPrice);
 		// System.out.println(product.getProductDescription());
 
 		foundID = categoryMService.getCategoryID(dbconnection, category);
@@ -133,11 +135,12 @@ public class ModifyProduct extends HttpServlet {
 		String newProductColor = requestVariable.getParameter("newProductColor");
 		String categoryName = requestVariable.getParameter("newCategoryName");
 		String categoryDescription = requestVariable.getParameter("newCategoryDescription");
+		int newProductPrice = Integer.parseInt(requestVariable.getParameter("newProductPrice"));
 
 		;
 
 		Product product = new Product(categoryName, categoryDescription, newProductName, newProductDescription,
-				newProductColor);
+				newProductColor, newProductPrice);
 
 		// get relevent categoryID
 		Product oldProduct = (Product) requestVariable.getSession().getAttribute("product");

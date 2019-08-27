@@ -10,25 +10,28 @@ public class Product extends Category{
 	private String productColor;
 	private byte[] productView;
 	private String img;
+	private int productPrice;
 	
 	//first constructor
 	public Product(String categoryName, String categoryDescription, String productName, String productDescription,
-			String productColor) {
+			String productColor, int productPrice) {
 		super(categoryName, categoryDescription);
 		this.productName = productName;
 		this.productDescription = productDescription;
 		this.productColor = productColor;
 		this.productView = null;
+		this.productPrice = productPrice;
 	}
 
 	//constructor with images inclusive
 	public Product(String categoryName, String categoryDescription, String productName, String productDescription,
-			String productColor, byte[] productVew) {
+			String productColor, byte[] productVew, int productPrice) {
 		super(categoryName, categoryDescription);
 		this.productName = productName;
 		this.productDescription = productDescription;
 		this.productColor = productColor;
 		this.productView = productVew;
+		this.productPrice = productPrice;
 		this.img = Base64.getEncoder().encodeToString(productVew);
 	}
 
@@ -45,6 +48,9 @@ public class Product extends Category{
 		return productColor;
 	}
 
+	public int getProductPrice() {
+		return this.productPrice;
+	}
 	//setters
 	public void setProductName(String productName) {
 		this.productName = productName;
@@ -57,7 +63,11 @@ public class Product extends Category{
 	public void setProductColor(String productColor) {
 		this.productColor = productColor;
 	}
-
+	
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
+	
 	public byte[] getProductView() {
 		return productView;
 	}

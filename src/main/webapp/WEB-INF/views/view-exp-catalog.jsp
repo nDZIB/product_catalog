@@ -32,11 +32,12 @@
 					<img src="data:image/jpeg;base64,${product.img}" name="productView"
 						height="100px" />
 						<hr>Name:&nbsp;<b>${product.productName}&nbsp;&nbsp;</b><br>
+						Price:&nbsp;<b>${product.productPrice}&nbsp;&nbsp;</b><br>
 					Color:&nbsp;${product.productColor}&nbsp;&nbsp;<br> <small>
 						${product.productDescription}</small> Category:&nbsp;
 					${product.categoryName} &nbsp;<br> Category Description&nbsp;<small>${product.categoryDescription}
 						&nbsp;&nbsp;</small> <a class="btn btn-success"
-						href="/modify-product.pcat?productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
+						href="/modify-product.pcat?productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
 				">Modify
 						Product</a>&nbsp;&nbsp;
 						<hr><br>

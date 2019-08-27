@@ -15,12 +15,13 @@
 				name="newProductName"><br> <label>Product
 				Color: &nbsp;</label><input type="text" value="${product.productColor}"
 				name="newProductColor"><br> <label>Product
-				Description: &nbsp;</label><input type="textarea"
+				Description: &nbsp;</label><input type="text"
 				value="${product.productDescription}" name="newProductDescription"><br>
 			<label>Product category: &nbsp;</label><input type="text"
 				value="${product.categoryName}" name="newCategoryName"><br>
-			<label>Category Description: &nbsp;</label><input type="textarea"
+			<label>Category Description: &nbsp;</label><input type="text"
 				value="${product.categoryDescription}" name="newCategoryDescription"><br>
+			<label>Price:</label><input type="text" value="${product.productPrice}" name= "newProductPrice"><br>
 
 			<input type="submit" value="Save" name="editProduct">&nbsp; 
 			<input
