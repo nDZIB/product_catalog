@@ -28,7 +28,7 @@ public class ModifyProduct extends HttpServlet {
 	public void doGet(HttpServletRequest requestVariable, HttpServletResponse responseVariable)
 			throws ServletException, IOException {
 
-		if(requestVariable.getParameter("productPrice") == null)
+		if(requestVariable.getParameter("productPrice") == null)// if no price is provided, call the add new product view
 			requestVariable.getRequestDispatcher("/WEB-INF/views/add-new-product.jsp").forward(requestVariable,
 					responseVariable);
 		else {
@@ -57,21 +57,30 @@ public class ModifyProduct extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest requestVariable, HttpServletResponse responseVariable)
 			throws ServletException, IOException {
+		//handles operations to perform after the user does modifications to to a product or wishes to add a new product
+		
 		ProductManagementService productMService = new ProductManagementService();
 		CategoryManagementService categoryMService = new CategoryManagementService();
-
+		//get the database connection
 		Connection dbconnection = (Connection) requestVariable.getSession().getAttribute("dbconnection");
-		// redirect to the page to modify products
+		
 		if (requestVariable.getParameter("editProduct") != null) {// code to execute if user wishes to edit product
-			this.editProduct(requestVariable, dbconnection, categoryMService, productMService);
+			if(!this.editProduct(requestVariable, dbconnection, categoryMService, productMService)) {
+				System.out.println("Unable to edit the product");
+				//may redirect to modify-product
+			}
 
 		} else if (requestVariable.getParameter("deleteProduct") != null) {// product deletion code
 			Product product = (Product) requestVariable.getSession().getAttribute("product");
 
-			productMService.removeProduct(dbconnection, product);
-
+			if(!productMService.removeProduct(dbconnection, product)) {
+				System.out.println("Unable to delete product");
+				//may redirect to delete product
+			}
 		} else if (requestVariable.getParameter("addNewProduct") != null) {// product addition code
-			addNewProduct(requestVariable, dbconnection, categoryMService, productMService);
+			if(!addNewProduct(requestVariable, dbconnection, categoryMService, productMService)) {
+				System.out.println("Unable to add the product");
+			}
 		}
 		requestVariable.getSession().removeAttribute("product");
 		responseVariable.sendRedirect("/view-exp-catalog.pcat");// after performing relevant logic, return to
@@ -79,7 +88,7 @@ public class ModifyProduct extends HttpServlet {
 	}
 
 	// method to add a product as a new one
-	public void addNewProduct(HttpServletRequest requestVariable, Connection dbconnection,
+	public boolean addNewProduct(HttpServletRequest requestVariable, Connection dbconnection,
 			CategoryManagementService categoryMService, ProductManagementService productMService)
 			throws IOException, ServletException {// product addition code
 
@@ -91,9 +100,8 @@ public class ModifyProduct extends HttpServlet {
 		String categoryDescription = requestVariable.getParameter("newCategoryDescription");
 		int productPrice = Integer.parseInt(requestVariable.getParameter("newProductPrice"));
 
-		// get the image if exists
+		// get the image if it exists
 		Part part = requestVariable.getPart("productView");
-		InputStream productView = part.getInputStream();
 
 		Category category = new Category(categoryName, categoryDescription);
 		Product product = new Product(categoryName, categoryDescription, newProductName, newProductDescription,
@@ -103,15 +111,18 @@ public class ModifyProduct extends HttpServlet {
 		foundID = categoryMService.getCategoryID(dbconnection, category);
 
 		if (foundID != 0) {// if the requested product category exists, add the product
-			this.doAddProduct(part, productView, productMService, dbconnection, product, foundID);
+			if(this.doAddProduct(part, productMService, dbconnection, product, foundID))
+				return true;
 		} else {// otherwise if the category does not exist, add it and proceed
-			this.doAddProduct(part, productView, productMService, dbconnection, product, foundID);
+			if(this.doAddProduct(part, productMService, dbconnection, product, foundID))
+				return true;
 		}
+		return false;
 	}
 
+	
 	// method to edit an existing product
-
-	public void editProduct(HttpServletRequest requestVariable, Connection dbconnection,
+	public boolean editProduct(HttpServletRequest requestVariable, Connection dbconnection,
 			CategoryManagementService categoryMService, ProductManagementService productMService)
 			throws IOException, ServletException {
 
@@ -128,37 +139,43 @@ public class ModifyProduct extends HttpServlet {
 		String categoryName = requestVariable.getParameter("newCategoryName");
 		String categoryDescription = requestVariable.getParameter("newCategoryDescription");
 		int newProductPrice = Integer.parseInt(requestVariable.getParameter("newProductPrice"));
+		Part part = requestVariable.getPart("productView");
+		InputStream productView = null;
 
-		;
-
+		//instantiate a new product
 		Product product = new Product(categoryName, categoryDescription, newProductName, newProductDescription,
 				newProductColor, newProductPrice);
 
-		// get relevent categoryID
-		Product oldProduct = (Product) requestVariable.getSession().getAttribute("product");
+		// get the product to be modified
+		Product oldProduct = (Product)requestVariable.getSession().getAttribute("product");
 
-		Part part = requestVariable.getPart("productView");
-		InputStream productView = null;
+		//get categoryID and productID of the old product
 		categoryID = productMService.getCategoryID(dbconnection, oldProduct);// get categoryID of old product
 		productID = productMService.getProductID(dbconnection, oldProduct);// get productID of old product
 
 		if (productID != 0) {// the provided old product exists
 			if (categoryID != 0) {// and the provided category exists
+				
+				//instantiate a categor object and get its id
 				Category category = new Category(product.getCategoryName(), product.getCategoryDescription());
-
 				newcategoryID = categoryMService.getCategoryID(dbconnection, category);// get the categoryid of the
 																						// new product
 				if (newcategoryID != 0) {// if the new product has a category
 					if (part.getSize() == 0) {// if the user selects no file
-						productMService.editProduct(dbconnection, product, newcategoryID, productID);
-						System.out.println("No image inserted");
-					} else {
+						if(productMService.editProduct(dbconnection, product, newcategoryID, productID)) {
+							System.out.println("No image inserted");
+							return true;
+						}
+					} else {//if the user selected an image
 						productView = part.getInputStream();
 						if (productView != null) {// if there is an image, edit the product, considering the image
-							productMService.editProduct(dbconnection, product, newcategoryID, productID, productView);
-						} else {
-							productMService.editProduct(dbconnection, product, newcategoryID, productID);
-							System.out.println("No image inserted");
+							if(productMService.editProduct(dbconnection, product, newcategoryID, productID, productView))
+									return true;
+						} else {// if the image is not valid, then neglect it
+							if(productMService.editProduct(dbconnection, product, newcategoryID, productID)) {
+								System.out.println("No image inserted");
+								return true;
+							}
 						}
 					}
 
@@ -167,12 +184,14 @@ public class ModifyProduct extends HttpServlet {
 						productView = part.getInputStream();
 						if (productView != null) {// and the file is a valid image file, add the new product with its
 													// image
-							this.addProductAndCategory(categoryMService, oldProduct, productMService, category,
-									dbconnection, productView);
+							if(this.addProductAndCategory(categoryMService, oldProduct, productMService, category,
+									dbconnection, productView))//if the new product was added
+								return true;
 						}
 					} else // the file is not a valid image file
-						this.addProductAndCategory(categoryMService, oldProduct, productMService, category,
-								dbconnection);
+						if(this.addProductAndCategory(categoryMService, oldProduct, productMService, category,
+								dbconnection))
+							return true;
 				}
 			} else {// if the provided old product's category does not exist/ this most always exist
 					// though
@@ -184,51 +203,69 @@ public class ModifyProduct extends HttpServlet {
 			System.out.println("Your product does not exist(can't update a non-existent product");
 			// redirect the user to modify-product.jsp
 		}
+		return false;//return value if the new product has an error
 	}
 
-	// method to add a category
-	public void addProductAndCategory(CategoryManagementService categoryMService, Product product,
+	// method to add a category, then a product
+	public boolean addProductAndCategory(CategoryManagementService categoryMService, Product product,
 			ProductManagementService productMService, Category category, Connection dbconnection) {
 		int newCategoryID = categoryMService.addCategory(dbconnection, category);
 		if (newCategoryID != 0) {// if the category was successfully added
-			productMService.addProduct(dbconnection, product, newCategoryID);// add the product
-		} else {// if the new product was not added
+			if(!productMService.addProduct(dbconnection, product, newCategoryID))  {// attempt to add the product
+				System.out.println("New product was not added");
+				return false;
+			}
+		} else {// if the category is not successfully added, then the product can't be added
 			System.out.println("Could not add the product");
+			return false;
 			// redirect to modify-product.jsp
 		}
+		return true;
 	}
 
-	// method to add a category with an image provided
-	public void addProductAndCategory(CategoryManagementService categoryMService, Product product,
+	// method to add a category and a product with an image provided
+	public boolean addProductAndCategory(CategoryManagementService categoryMService, Product product,
 			ProductManagementService productMService, Category category, Connection dbconnection,
 			InputStream productView) {
 		int newCategoryID = categoryMService.addCategory(dbconnection, category);
 		if (newCategoryID != 0) {// if the category was successfully added
-			productMService.addProduct(dbconnection, product, newCategoryID, productView);// add the product
-		} else {// if the new product was not added
+			if(!productMService.addProduct(dbconnection, product, newCategoryID, productView))//attempt to add the new product
+				return false;//return false if it fails
+		} else {// if the new category was not added
 			System.out.println("Could not add the product");
+			return false;
 			// redirect to modify-product.jsp
 		}
+		return true;
 	}
 	
 	//supercode to add a new product(adding the product sets a default image if no image is specified
-	public void doAddProduct(Part part, InputStream productView, ProductManagementService productMService, 
+	public boolean doAddProduct(Part part, ProductManagementService productMService, 
 			Connection dbconnection, Product product, int foundID) throws IOException{
+		InputStream productView = null;
 		if (part.getSize() > 0) {
 			productView = part.getInputStream();
 			if (productView != null) // if image exists, add the new product
-				productMService.addProduct(dbconnection, product, foundID, productView);
+				if(productMService.addProduct(dbconnection, product, foundID, productView))
+					return true;
 			else {// add new product without image(a default image) this will hardly ever be executed though
 				String pat = System.getProperty("user.dir");
 				pat = pat +"\\src\\main\\resources\\def_image.png";
 				productView = new FileInputStream(pat);
-				productMService.addProduct(dbconnection, product, foundID, productView);
+				if(productMService.addProduct(dbconnection, product, foundID, productView)) {
+					productView.close();
+					return true;
+				}
 			}
-		} else {
+		} else {//if no image was selected
 			String pat = System.getProperty("user.dir");
 			pat = pat +"\\src\\main\\resources\\def_image.png";
 			productView = new FileInputStream(pat);
-			productMService.addProduct(dbconnection, product, foundID, productView);
+			if(productMService.addProduct(dbconnection, product, foundID, productView)) {
+				productView.close();
+				return true;
+			}
 		}
+		return false; //return false if no new product was added
 	}
 }
