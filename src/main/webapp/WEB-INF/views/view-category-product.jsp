@@ -8,19 +8,22 @@
 <body>
 	<%@ include file="../common-files/comnavbar.jspf"%>
 	<div class="container">
-		<h1>Here is our catalog</h1>
+		<h1>${category.categoryName}</h1>
+		<h3>${category.categoryDescription}</h3>
 		
 		<br>	
-		<ul>
-			<li><a href = "/view-catalog.pcat">Product Catalog</a>
-		</ul>
+		<ul class = "container"><li><a href="/view-categories.pcat">Product Categories</a></li></ul>
 		<ul class = "container">
-			<sc:forEach items="${category}" var="cat">
+			<sc:forEach items="${products}" var="product">
+			<div class ="col-md-3"><img src="data:image/jpeg;base64,${product.img}" name ="productView" height = "100px"/>
 			<hr>
-				Category Name:${cat.categoryName}<br>
-				Category Description: ${cat.categoryDescription}<br>
-				<a href="/view-category-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
-			<hr>	
+				Name:&nbsp;<b>${product.productName}&nbsp;&nbsp;</b><br>
+				Price:&nbsp;<b>${product.productPrice}&nbsp;&nbsp;</b><br>
+					Color:&nbsp;${product.productColor}&nbsp;&nbsp;<br>
+					<small> ${product.productDescription}</small>
+					<hr><br>
+				</div>	
+				
 			</sc:forEach>
 		</ul>
 			<a href="/user-signup.pcat">Sign Up for account</a>

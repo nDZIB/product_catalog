@@ -42,7 +42,7 @@ public class LogCurrentSystemUserIn extends HttpServlet{
 		}
 		
 		if(userExists) {//if the current user exists, grant them access to the system
-			requestVariable.getSession().setMaxInactiveInterval(60);
+			//requestVariable.getSession().setMaxInactiveInterval(60);
 			requestVariable.getSession().setAttribute("userName", currentSystemUser.getUserPassword());
 			responseVariable.sendRedirect("/view-exp-catalog.pcat");
 		} else {//if the user does not exist, keep user in view-catalog
@@ -74,7 +74,7 @@ public class LogCurrentSystemUserIn extends HttpServlet{
 			userIsSignedUp = userAuthenticator.userExists(dbconnection, currentSystemUser.getUserName(), currentSystemUser.getUserPassword());
 		
 		if(userIsSignedUp) {
-			requestVariable.getSession().setMaxInactiveInterval(60);//user is logged out after 1 minute of inactivity
+			//requestVariable.getSession().setMaxInactiveInterval(60);//user is logged out after 1 minute of inactivity
 			requestVariable.getSession().setAttribute("userName", userName);
 			responseVariable.sendRedirect("/view-exp-catalog.pcat");
 		} else {//if the user has not signed up for an account, keep user in view-catalog

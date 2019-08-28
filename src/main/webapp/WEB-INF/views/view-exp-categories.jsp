@@ -22,6 +22,7 @@
 				<li>
 					Category Name:${cat.categoryName}<br>
 					Category Description: ${cat.categoryDescription}<br>
+					<a href = "/view-expcategory-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
 				</li>
 				<li><a
 					href="/modify-category.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">
