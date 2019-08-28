@@ -32,12 +32,13 @@
 				<div class="col-md-3">
 					<img src="data:image/jpeg;base64,${product.img}" name="productView"
 						height="100px" />
-						<hr>Name:&nbsp;<b>${product.productName}&nbsp;&nbsp;</b><br>
-						Price:&nbsp;<b>${product.productPrice}&nbsp;&nbsp;</b><br>
-					Color:&nbsp;${product.productColor}&nbsp;&nbsp;<br> <small>
-						${product.productDescription}</small> Category:&nbsp;
-					${product.categoryName} &nbsp;<br> Category Description&nbsp;<small>${product.categoryDescription}
-						&nbsp;&nbsp;</small> <a class="btn btn-success"
+						<hr>
+						<h5><small>Name:&nbsp;</small><b>${product.productName}&nbsp;&nbsp;</b><br></h5>
+						<h5><small>Price:</small>&nbsp;<b>${product.productPrice}&nbsp;&nbsp;</b><br></h5>
+					<h5><small>Color:</small>&nbsp;${product.productColor}&nbsp;&nbsp;<br></h5>
+						<h5>${product.productDescription}<br></h5><h5><small>Category:</small>&nbsp;
+					${product.categoryName} &nbsp;<br></h5> <h5><small>Category Description:</small>&nbsp;<small>${product.categoryDescription}
+						&nbsp;&nbsp;</small></h5> <a class="btn btn-success"
 						href="/modify-product.pcat?product=${product}&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
 				">Modify
 						Product</a>&nbsp;&nbsp;
