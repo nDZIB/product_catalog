@@ -86,6 +86,7 @@ public class ModifyProduct extends HttpServlet {
 		responseVariable.sendRedirect("/view-exp-catalog.pcat");// after performing relevant logic, return to
 																// view-exp-catalog
 	}
+	
 
 	// method to add a product as a new one
 	public boolean addNewProduct(HttpServletRequest requestVariable, Connection dbconnection,
