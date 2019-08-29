@@ -9,11 +9,13 @@
 		<h1>Modify category</h1>
 
 		<form action="/modify-category.pcat" method="post">
-			<input type="text" value="${category.categoryName}"
-				name="newCategoryName"><br> <input type="text"
+			<label>Category Name &nbsp;</label><input type="text"
+				value="${category.categoryName}" name="newCategoryName"><br>
+			<label>Description &nbsp;&nbsp;</label><input type="text"
 				value="${category.categoryDescription}"
-				name="newCategoryDescription"><br><br><input type="submit"
-				value="Add" name="addNewCategory">
+				name="newCategoryDescription"><br>
+			<br> <input class="btn btn-success" type="submit" value="Add"
+				name="addNewCategory">
 		</form>
 	</div>
 	<%@ include file="../common-files/comfooter.jspf"%>

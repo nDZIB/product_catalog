@@ -10,7 +10,6 @@
 		<h1>Modify products</h1>
 
 		<form action="/modify-product.pcat" method="post" enctype="multipart/form-data">
-			<a href="#">add as New</a><br> <label>Product Name:
 				&nbsp;</label><input type="text" value="${product.productName}"
 				name="newProductName"><br> <label>Product
 				Color: &nbsp;</label><input type="text" value="${product.productColor}"
@@ -27,10 +26,10 @@
 			<input
 				type="file" name="productView" value = "Product Preview" placeholder = "product preview" />
 
-			<input type="submit" value="Save" name="editProduct">&nbsp; 
-			<input
+			<input class = "btn btn-success" type="submit" value="Save" name="editProduct">&nbsp; 
+			<input class = "btn btn-danger" 
 				type="submit" value="Delete" name="deleteProduct"> 
-			<input
+			<input class = "btn btn-success" 
 				type="submit" value="Add as new" name="addNewProduct"> 
 		</form>
 	</div>

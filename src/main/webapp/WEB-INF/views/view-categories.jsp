@@ -8,32 +8,37 @@
 <body>
 	<%@ include file="../common-files/comnavbar.jspf"%>
 	<div class="container">
-		<h1>Here is our catalog</h1>
-		
-		<br>	
-		<ul>
-			<li><a href = "/view-catalog.pcat">Product Catalog</a>
+		<h1>Category Overview</h1>
+
+		<br>
+		<nav class="navbar navbar-right">
+			<ul class="nav navbar-nav">
+			<li><a href="/view-catalog.pcat">Product Catalog</a>
 		</ul>
-		<ul class = "container">
+		</nav>
+		<br>
+		<br>
+		<ul class="container table">
 			<sc:forEach items="${category}" var="cat">
-			<hr>
-				Category Name:${cat.categoryName}<br>
-				Category Description: ${cat.categoryDescription}<br>
-				<a href="/view-category-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
-			<hr>	
+				<hr>
+				<li>Category Name:${cat.categoryName}<br> Category
+					Description: ${cat.categoryDescription}<br> 
+					<a href="/view-category-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
+				</li>
+				<hr>
 			</sc:forEach>
 		</ul>
-			<a href="/user-signup.pcat">Sign Up for account</a>
-			<form action="/login.pcat" method="POST" class ="sign-in-form">
-				<fieldset>
-					<legend>Login</legend>
-					<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
-					<label>Password:&nbsp;</label><input type="password"
-						name="userPassword"><br> <input type="submit"
-						value="Login">
-				</fieldset>
-			</form>
-		</div>
+		<a href="/user-signup.pcat">Sign Up for account</a>
+		<form action="/login.pcat" method="POST" class="sign-in-form">
+			<fieldset>
+				<legend>Login</legend>
+				<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
+				<label>Password:&nbsp;</label><input type="password"
+					name="userPassword"><br> <input type="submit"
+					value="Login">
+			</fieldset>
+		</form>
+	</div>
 	<%@ include file="../common-files/comfooter.jspf"%>
 </body>
 </html>

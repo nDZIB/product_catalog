@@ -8,40 +8,42 @@
 <body>
 	<%@ include file="../common-files/comnavbar.jspf"%>
 	<div class="container">
-		<h1>Here is our catalog</h1>
-		
-		<br>	
-		<ul>
-			<li><a href = "/view-exp-catalog.pcat">Product Catalog</a>
-			<li><a href = "/modify-category.pcat">Add new Category</a></li>
-		</ul>
-		<ul class = "container">
-			<sc:forEach items="${category}" var="cat">
-			<hr>
+		<h1>Explicit Category view</h1>
+
+		<br>
+		<div class="container">
+			<nav class="navbar navbar-right">
 				<ul class="nav navbar-nav">
-				<li>
-					Category Name:${cat.categoryName}<br>
-					Category Description: ${cat.categoryDescription}<br>
-					<a href = "/view-expcategory-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
-				</li>
-				<li><a
-					href="/modify-category.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">
-						Modify Category</a></li>
+					<li><a href="/view-exp-catalog.pcat">Product Catalog</a></li>
+					<li><a href="/modify-category.pcat">Add new Category</a></li>
 				</ul>
-				
+			</nav>
+		</div>
+		<ul class="container">
+			<sc:forEach items="${category}" var="cat">
+				<hr>
+				<li><label>Category Name:</label><b>${cat.categoryName}</b><br> 
+				<label>Category Description: </label><b>${cat.categoryDescription}</b><br><br> <a class="btn btn-success"
+					href="/view-expcategory-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
+					&nbsp;&nbsp;
+					<a class="btn btn-danger"
+					href="/modify-category.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">
+						Modify Category</a>
 			</sc:forEach>
 		</ul>
-			<a href="/user-signup.pcat">Sign Up for account</a>
-			<form action="/login.pcat" method="POST" class ="sign-in-form">
-				<fieldset>
-					<legend>Login</legend>
-					<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
-					<label>Password:&nbsp;</label><input type="password"
-						name="userPassword"><br> <input type="submit"
-						value="Login">
-				</fieldset>
-			</form>
-		</div>
+		<br>
+		<br>
+		<a class = "link" href="/user-signup.pcat">Sign Up for account</a>
+		<form action="/login.pcat" method="POST" class="sign-in-form">
+			<fieldset>
+				<legend>Login</legend>
+				<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
+				<label>Password:&nbsp;</label><input type="password"
+					name="userPassword"><br> <input  class = "btn btn-success" type="submit"
+					value="Login">
+			</fieldset>
+		</form>
+	</div>
 	<%@ include file="../common-files/comfooter.jspf"%>
 </body>
 </html>

@@ -9,12 +9,14 @@
 		<h1>Modify category</h1>
 
 		<form action="/modify-category.pcat" method="post">
-			<input type="text" value="${category.categoryName}"
-				name="newCategoryName"><br> <input type="text"
+			<label>Category Name: &nbsp;</label><input type="text" value="${category.categoryName}"
+				name="newCategoryName"><br> 
+			<label>Description: &nbsp;</label><input type="text"
 				value="${category.categoryDescription}"
-				name="newCategoryDescription"><br> <input type="submit"
-				value="Save" name="editCategory">&nbsp; <input type="submit"
-				value="Delete" name="deleteCategory"> <input type="submit"
+				name="newCategoryDescription"><br><br>
+				<input class = "btn btn-success" type="submit"
+				value="Save" name="editCategory">&nbsp; <input class = "btn btn-danger" type="submit"
+				value="Delete" name="deleteCategory"> <input class = "btn btn-success" type="submit"
 				value="Add as new" name="addNewCategory">
 		</form>
 	</div>
