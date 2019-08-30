@@ -27,8 +27,7 @@
 				<b>${cat.categoryDescription}</b><br><br>
 				</div>
 				<a class="btn btn-success"
-					href="/view-expcategory-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
-					&nbsp;&nbsp;
+					href="/view-category-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
 						<hr>
 						</div>
 			

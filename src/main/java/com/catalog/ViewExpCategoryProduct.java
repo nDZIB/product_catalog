@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.category.Category;
 import com.category.CategoryManagementService;
 import com.product.Product;
-import com.product.ProductManagementService;
 
 @WebServlet(urlPatterns = "/view-expcategory-product.pcat")
 public class ViewExpCategoryProduct extends HttpServlet{
@@ -35,7 +34,7 @@ public class ViewExpCategoryProduct extends HttpServlet{
 		//CategoryManagementService categoryMService = new CategoryManagementService();
 		int catID = new CategoryManagementService().getCategoryID(category);
 		
-		List<Product> products = new ProductManagementService().getAllCategoryProducts(catID);
+		List<Product> products = new CatalogManagementService().getAllCategoryProducts(catID);
 		System.out.println(products.size());
 		
 		requestVariable.setAttribute("category", category);

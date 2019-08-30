@@ -27,17 +27,26 @@
 
 
 				<div class="col-md-3">
+				<form action = "/modify-product.pcat" method = "post">
 					<img src="data:image/jpeg;base64,${product.img}" name="productView"/>
 						<hr>
 						<small>Name:&nbsp;</small><b>${product.productName}</b><br>
 				<small> Price:&nbsp; </small> <b>${product.productPrice}&nbsp;<span>FCFA</span></b><br>
-					<small>${product.productDescription}</small><br> <a class="btn btn-success"
-						href="/modify-product.pcat?product=${product}&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
+					<small>${product.productDescription}</small><br> 
+				<!--  <a class="btn btn-success" href="/modify-product.pcat?product=${product}&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
 				">Modify
-						Product</a>&nbsp;&nbsp;
-						<hr><br>
+						Product</a>&nbsp;&nbsp;<br><br> -->
+				<input type = "hidden"  name = "productName" value="${product.productName}">
+				<input type = "hidden"  name = "productDescription" value="${product.productDescription}">
+				<input type = "hidden"  name = "productColor" value="${product.productColor}">
+				<input type = "hidden"  name = "productPrice" value="${product.productPrice}">
+				<input type = "hidden"  name = "categoryName" value="${product.categoryName}">
+				<input type = "hidden"  name = "categoryDescription" value="${product.categoryDescription}">
+				<input class = "btn btn-success" type = "submit"  name = "modifyFromView" value="Modify">
+				<input class = "btn btn-danger" type = "submit"  name = "deleteFromView" value="Delete">
+				</form>
+				<hr><br>
 				</div>
-
 			</sc:forEach>
 		</ul>
 
