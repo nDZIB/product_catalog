@@ -27,8 +27,7 @@
 
 
 				<div class="col-md-3">
-					<img src="data:image/jpeg;base64,${product.img}" name="productView"
-						height="100px" />
+					<img src="data:image/jpeg;base64,${product.img}" name="productView"/>
 						<hr>
 						<small>Name:&nbsp;</small><b>${product.productName}&nbsp;&nbsp;</b><br>
 				<small> Price:&nbsp; </small> <b>${product.productPrice}&nbsp;&nbsp;</b><br>

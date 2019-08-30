@@ -21,15 +21,18 @@
 		<ul class="container">
 			<sc:forEach items="${products}" var="product">
 				<div class="col-md-3">
-					<img src="data:image/jpeg;base64,${product.img}" name="productView"
-						height="100px" />
+					<img src="data:image/jpeg;base64,${product.img}" name="productView"/>
 					<hr>
-					Name:&nbsp;<b>${product.productName}&nbsp;&nbsp;</b><br>
-					Price:&nbsp;<b>${product.productPrice}&nbsp;&nbsp;</b><br>
-					Color:&nbsp;${product.productColor}&nbsp;&nbsp;<br> <small>
-						${product.productDescription}</small> Category:&nbsp;
-					${product.categoryName} &nbsp;<br> Category Description&nbsp;<small>${product.categoryDescription}
-						&nbsp;&nbsp;</small>
+					<label>Name:&nbsp;</label><b>${product.productName}</b><br>
+					<label>Price:&nbsp;</label><b>${product.productPrice}</b><br>
+					<label>Color:&nbsp;</label>${product.productColor}<br>
+					<label>Category:&nbsp;</label>${product.categoryName}<br>
+					
+					<!--  dont want to display the category description -->
+						<!-- <small>${product.productDescription}</small><br> -->
+						<!--   <label>Category Description&nbsp;</label>
+							<small>${product.categoryDescription}&nbsp;&nbsp;</small>
+						-->
 					<hr>
 					<br>
 				</div>

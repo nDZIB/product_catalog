@@ -25,4 +25,10 @@ ul.nav>li {
 body {
 	/*background-color: yellow;*/
 }
+
+img {
+	
+	height: 200px;
+	width: 250px; 
+}
 </style>

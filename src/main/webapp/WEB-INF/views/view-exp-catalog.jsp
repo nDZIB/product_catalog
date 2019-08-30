@@ -26,8 +26,7 @@
 			<!-- This form's elements will be hidden. their only role is to ensure that when modifying 
 				a product, the search bar is neat (that is, no data is displayed for the user/everything is at the background)-->
 			<form action = "/modify-product.pcat" method = "post">
-					<img src="data:image/jpeg;base64,${product.img}" name="productView"
-						height="100px" />
+					<img src="data:image/jpeg;base64,${product.img}" name="productView"/>
 					<hr>
 					<h5>
 						<small>Name:&nbsp;</small><b>${product.productName}&nbsp;&nbsp;</b><br>
@@ -38,20 +37,21 @@
 					<h5>
 						<small>Color:</small>&nbsp;${product.productColor}&nbsp;&nbsp;<br>
 					</h5>
+					<!--  DON'T WANT TO DISPLAY THE PRODUCT DESCRIPTION
 					<h5>${product.productDescription}<br>
 					</h5>
+					-->
 					<h5>
 						<small>Category:</small>&nbsp; ${product.categoryName} &nbsp;<br>
 					</h5>
+					<!--  DON'T WANT TO DISPLAY THE CATEGORY DESCRIPTION
 					<h5>
 						<small>Category Description:</small>&nbsp;<small>${product.categoryDescription}
 							&nbsp;&nbsp;</small>
 					</h5>
-					<!--  <a class="btn btn-success"
-						href="/modify-product.pcat?product=${product}&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
-				">Modify</a>&nbsp;&nbsp;
-					<a href="/modify-product.pcat?deleteFromView=1&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}">Delete</a><br><br>
 					-->
+					
+					<!-- THESE HIDDEN FIELDS CONTAIN THE DATA TO BE SENT BASED ON ANY REQUEST BY USER -->
 				<input type = "hidden"  name = "productName" value="${product.productName}">
 				<input type = "hidden"  name = "productDescription" value="${product.productDescription}">
 				<input type = "hidden"  name = "productColor" value="${product.productColor}">

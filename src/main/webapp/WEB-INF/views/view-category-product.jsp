@@ -15,7 +15,7 @@
 		<ul class = "container"><li><a href="/view-categories.pcat">Product Categories</a></li></ul>
 		<ul class = "container">
 			<sc:forEach items="${products}" var="product">
-			<div class ="col-md-3"><img src="data:image/jpeg;base64,${product.img}" name ="productView" height = "100px"/>
+			<div class ="col-md-3"><img src="data:image/jpeg;base64,${product.img}" name ="productView"/>
 			<hr>
 				Name:&nbsp;<b>${product.productName}&nbsp;&nbsp;</b><br>
 				Price:&nbsp;<b>${product.productPrice}&nbsp;&nbsp;</b><br>
