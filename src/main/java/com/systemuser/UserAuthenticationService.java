@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.connection.ConnectionManager;
+
 public class UserAuthenticationService {
 
-	public boolean userExists(Connection dbconnection, String userName, String userPassword) {
+	public boolean userExists(String userName, String userPassword) {
+		Connection dbconnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement pst = dbconnection
 					.prepareStatement("SELECT userID FROM systemuser " + "WHERE userName = ? AND userPassword = ?");
@@ -18,6 +21,7 @@ public class UserAuthenticationService {
 
 			if (rs.next())
 				return true;
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -25,8 +29,8 @@ public class UserAuthenticationService {
 	}
 
 	// method to insert a new user
-	public boolean signupUser(Connection dbconnection, NewSystemUser systemuser) {
-
+	public boolean signupUser(NewSystemUser systemuser) {
+		Connection dbconnection = new ConnectionManager().createConnection();
 		// if the current user does not exist, then add them
 		try {
 			PreparedStatement pst = dbconnection.prepareStatement(
@@ -37,6 +41,7 @@ public class UserAuthenticationService {
 			pst.setString(3, systemuser.getUserPassword());
 
 			pst.executeUpdate();
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;// return false if new user cannot be signed in

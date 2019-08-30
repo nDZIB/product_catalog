@@ -35,11 +35,7 @@ public class SignUpNewSystemUser extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest requestVariable, HttpServletResponse responseVariable)
 			throws ServletException, IOException {
-		Connection dbconnection = (Connection) requestVariable.getSession().getAttribute("dbconnection");
-		if (dbconnection == null) {
-			dbconnection = new ConnectionManager().createConnection();
-			requestVariable.getSession().setAttribute("dbconnection", dbconnection);
-		}
+		
 		String userName = requestVariable.getParameter("userName");
 		String userPassword = requestVariable.getParameter("userPassword");
 		String userRealName = requestVariable.getParameter("userRealName");
@@ -56,13 +52,13 @@ public class SignUpNewSystemUser extends HttpServlet{
 		boolean userISSignedUp = false;
 		//check whether or not the user is already Signed up
 		
-		if(!userAuthenticator.userExists(dbconnection, newsystemuser.getUserName(), newsystemuser.getUserPassword()))//user doesn not exist
-			userISSignedUp = userAuthenticator.signupUser(dbconnection, newsystemuser);//then sign them up
+		if(!userAuthenticator.userExists(newsystemuser.getUserName(), newsystemuser.getUserPassword()))//user doesn not exist
+			userISSignedUp = userAuthenticator.signupUser(newsystemuser);//then sign them up
 		
 		
 		if (userISSignedUp) {// if the user is successfully signed up
 			System.out.println("signed up");
-			boolean userExists = userAuthenticator.userExists(dbconnection, userName, userPassword);//then log them in
+			boolean userExists = userAuthenticator.userExists(userName, userPassword);//then log them in
 			if (userExists) {
 				requestVariable.getSession().setAttribute("userName", userName);
 				responseVariable.sendRedirect("/view-exp-catalog.pcat");

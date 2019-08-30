@@ -70,7 +70,7 @@
 			need to logout</small>
 		<form action="/login.pcat" method="POST">
 			<fieldset>
-				<legend>Login</legend>
+				<legend>Switch User</legend>
 				<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
 				<label>Password:&nbsp;</label><input type="password"
 					name="userPassword"><br> <input type="submit"

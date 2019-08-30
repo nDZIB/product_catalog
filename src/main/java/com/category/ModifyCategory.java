@@ -28,11 +28,18 @@ public class ModifyCategory extends HttpServlet {
 		else {
 			Category category = new Category(categoryName, categoryDescription);
 
-			requestVariable.getSession().setAttribute("category", category);// put the current category to be modified
-																			// in
-																			// session
-			requestVariable.getRequestDispatcher("/WEB-INF/views/modify-category.jsp").forward(requestVariable,
-					responseVariable);
+			if (Integer.parseInt(requestVariable.getParameter("id")) != 0) {//if the id identifying the button clicked is 0, implies delete
+				requestVariable.getSession().setAttribute("category", category);// put the current category to be
+																				// modified
+																				// in
+																				// session
+				requestVariable.getRequestDispatcher("/WEB-INF/views/modify-category.jsp").forward(requestVariable,
+						responseVariable);
+			} else {//code to delete the category(if the passed id is 0)
+				new CategoryManagementService().removeCategory(category);
+				
+				responseVariable.sendRedirect("/view-exp-categories.pcat");
+			}
 		}
 	}
 
@@ -57,12 +64,13 @@ public class ModifyCategory extends HttpServlet {
 			if (newCategory.isComplete()) {
 				if (manageCategory.editCategory(oldcategory, newCategory))
 					System.out.println("Category updated");
-				else 
+				else
 					System.out.println("Modify Category: Unable to update the category");
 			} else {
-				System.out.println("ModifyCategory: Category was not modified, it seems all information was not provided");
+				System.out.println(
+						"ModifyCategory: Category was not modified, it seems all information was not provided");
 			}
-			
+
 		} else if (requestVariable.getParameter("addNewCategory") != null) {
 			// execute query to add a category, then return to the view-exp-catalog jsp
 			// first get category, then add it
@@ -71,12 +79,11 @@ public class ModifyCategory extends HttpServlet {
 
 			Category newCategory = new Category(newCategoryName, newCategoryDescription);
 
-			
 			if (newCategory.isComplete()) {
 				int catID = manageCategory.getCategoryID(newCategory);
-				System.out.println("category id = "+catID);
-				
-				if(catID <= 0) {//if no such category exists
+				System.out.println("category id = " + catID);
+
+				if (catID <= 0) {// if no such category exists
 					if (manageCategory.addNewCategory(newCategory))
 						System.out.println("Modify Category: Category was added");
 				} else {

@@ -19,24 +19,32 @@
 				</ul>
 			</nav>
 		</div>
-		<ul class="container">
+		<div class="container">
 			<sc:forEach items="${category}" var="cat">
+			<div class="col-md-3">
+			<div class ="a-block">
 				<hr>
-				<li><label>Category Name:</label><b>${cat.categoryName}</b><br> 
-				<label>Category Description: </label><b>${cat.categoryDescription}</b><br><br> <a class="btn btn-success"
+				<h1><b>${cat.categoryName}</b><br></h1> 
+				<label>Category Description: </label><b>${cat.categoryDescription}</b><br><br>
+				</div>
+				<a class="btn btn-success"
 					href="/view-expcategory-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
 					&nbsp;&nbsp;
 					<a class="btn btn-danger"
-					href="/modify-category.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">
-						Modify Category</a>
+					href="/modify-category.pcat?id=1&categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">
+						Modify</a>
+						<a class="btn btn-danger"
+					href="/modify-category.pcat?id=0&categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">
+						Delete</a>
+						</div>
 			</sc:forEach>
-		</ul>
+		</div>
 		<br>
 		<br>
 		<a class = "link" href="/user-signup.pcat">Sign Up for account</a>
 		<form action="/login.pcat" method="POST" class="sign-in-form">
 			<fieldset>
-				<legend>Login</legend>
+				<legend>Switch User</legend>
 				<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
 				<label>Password:&nbsp;</label><input type="password"
 					name="userPassword"><br> <input  class = "btn btn-success" type="submit"

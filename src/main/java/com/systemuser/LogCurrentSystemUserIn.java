@@ -38,11 +38,10 @@ public class LogCurrentSystemUserIn extends HttpServlet{
 		
 		boolean userExists = false;//assume the user does not exist
 		if(currentSystemUser.isComplete()) {//if the current user has a name and password
-			userExists = userValidator.userExists(dbconnection, currentSystemUser.getUserName(), currentSystemUser.getUserPassword());// then verify that the user has signed up
+			userExists = userValidator.userExists(currentSystemUser.getUserName(), currentSystemUser.getUserPassword());// then verify that the user has signed up
 		}
 		
 		if(userExists) {//if the current user exists, grant them access to the system
-			//requestVariable.getSession().setMaxInactiveInterval(60);
 			requestVariable.getSession().setAttribute("userName", currentSystemUser.getUserPassword());
 			responseVariable.sendRedirect("/view-exp-catalog.pcat");
 		} else {//if the user does not exist, keep user in view-catalog
@@ -71,10 +70,9 @@ public class LogCurrentSystemUserIn extends HttpServlet{
 		
 		boolean userIsSignedUp = false;
 		if(currentSystemUser.isComplete()) //if the current user is valid, then verify if they have signed up
-			userIsSignedUp = userAuthenticator.userExists(dbconnection, currentSystemUser.getUserName(), currentSystemUser.getUserPassword());
+			userIsSignedUp = userAuthenticator.userExists(currentSystemUser.getUserName(), currentSystemUser.getUserPassword());
 		
 		if(userIsSignedUp) {
-			//requestVariable.getSession().setMaxInactiveInterval(60);//user is logged out after 1 minute of inactivity
 			requestVariable.getSession().setAttribute("userName", userName);
 			responseVariable.sendRedirect("/view-exp-catalog.pcat");
 		} else {//if the user has not signed up for an account, keep user in view-catalog

@@ -37,8 +37,6 @@ public class ViewExpCatalog extends HttpServlet{
 		
 		if(databaseConnection!= null) {
 			//if the connection was successful
-			//put the connection into session
-			//requestVariable.getSession().setAttribute("dbconnection", databaseConnection);
 			//execute a query to get the list of all products
 			products = catalogMService.getProducts();
 			if(products.size() != 0) {

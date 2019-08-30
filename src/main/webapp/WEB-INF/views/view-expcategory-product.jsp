@@ -11,12 +11,12 @@
 		
 		<nav class="navbar navbar-right">
 			<ul class="nav navbar-nav">
-				<li>
-				<a href ="/view-exp-categories.pcat">Product Categories</a>
-				<a href ="/modify-product.pcat">Add new Product</a>
+				<li><a href ="/view-exp-categories.pcat">Product Categories</a></li>
+				<li><a href ="/modify-product.pcat">Add new Product</a></li>
 			</ul>
 		</nav>
 		</div>
+		
 		
 		<div class="container">
 		<h1>${category.categoryName}</h1>
@@ -45,7 +45,7 @@
 				logout</small>
 			<form action="/login.pcat" method="POST">
 				<fieldset>
-					<legend>Login</legend>
+					<legend>Switch User</legend>
 					<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
 					<label>Password:&nbsp;</label><input type="password"
 						name="userPassword"><br> <input type="submit"
