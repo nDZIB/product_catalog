@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-@WebFilter(urlPatterns = {"/modify-category.pcat", "/modify-product.pcat", "/view-exp-catalog.pcat"})
+@WebFilter(urlPatterns = {"/modify-category.pcat", "/view-exp-categories.pcat", "/view-expcategory-product.pcat", "/modify-product.pcat", "/view-exp-catalog.pcat"})
 public class ModificationFilter implements Filter{
 
 	@Override
