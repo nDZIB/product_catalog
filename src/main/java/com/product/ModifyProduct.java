@@ -40,6 +40,7 @@ public class ModifyProduct extends HttpServlet {
 			int productPrice = Integer.parseInt(requestVariable.getParameter("productPrice"));
 			// String pict = requestVariable.getParameter("productView");
 
+			System.out.println(productDescription);
 			Product product = new Product(categoryName, categoryDescription, productName, productDescription,
 					productColor, productPrice);
 
@@ -48,12 +49,21 @@ public class ModifyProduct extends HttpServlet {
 			// this request
 
 			requestVariable.getSession().setAttribute("product", product);
+			if(categoryDescription != null) {
 			// redirect to the page to modify products
 			requestVariable.getRequestDispatcher("/WEB-INF/views/modify-product.jsp").forward(requestVariable,
 					responseVariable);
+			} else {
+				if (!new ProductManagementService().removeProduct(product)) {
+					System.out.println("Unable to delete product");
+					// may redirect to delete product
+				}
+				requestVariable.getSession().removeAttribute("product");
+				responseVariable.sendRedirect("/view-exp-catalog.pcat");
+			}
 		}
 	}
-
+	
 	@Override
 	public void doPost(HttpServletRequest requestVariable, HttpServletResponse responseVariable)
 			throws ServletException, IOException {
@@ -68,7 +78,7 @@ public class ModifyProduct extends HttpServlet {
 				// may redirect to modify-product
 			}
 
-		} else if (requestVariable.getParameter("deleteProduct") != null) {// product deletion code
+		} else if (requestVariable.getParameter("deleteProduct") != null) {// product deletion code from editing
 			Product product = (Product) requestVariable.getSession().getAttribute("product");
 
 			if (!productMService.removeProduct(product)) {

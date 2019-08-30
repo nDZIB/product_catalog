@@ -122,14 +122,15 @@ public class ProductManagementService {
 		try {// for better code, you might want to first get the relevant category id before
 				// proceeding
 			PreparedStatement pst = dbconnection.prepareStatement("DELETE FROM product WHERE productName=? AND "
-					+ "productDescription = ? AND productPrice = ?");
+					+ "productDescription = ? AND productPrice = ? AND productColor = ?");
 			pst.setString(1, product.getProductName());
 			pst.setString(2, product.getProductDescription());
 			pst.setInt(3, product.getProductPrice());
+			pst.setString(4, product.getProductColor());
 			pst.executeUpdate();
 
 			dbconnection.close();
-			System.out.println("Okay, product deleted");
+			System.out.println("Okay, product deleted "+ product.getProductDescription());
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Nothing deleted");

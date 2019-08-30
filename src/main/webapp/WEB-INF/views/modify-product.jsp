@@ -10,7 +10,7 @@
 		<h1>Modify products</h1>
 
 		<form action="/modify-product.pcat" method="post" enctype="multipart/form-data">
-				&nbsp;</label><input type="text" value="${product.productName}"
+				<label>Product Name&nbsp;</label><input type="text" value="${product.productName}"
 				name="newProductName"><br> <label>Product
 				Color: &nbsp;</label><input type="text" value="${product.productColor}"
 				name="newProductColor"><br> <label>Product

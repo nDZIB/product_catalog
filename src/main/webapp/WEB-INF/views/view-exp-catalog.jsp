@@ -45,8 +45,8 @@
 					</h5>
 					<a class="btn btn-success"
 						href="/modify-product.pcat?product=${product}&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
-				">Modify
-						Product</a>&nbsp;&nbsp;
+				">Modify</a>&nbsp;&nbsp;
+					<a href="/modify-product.pcat?deleteFromView=1&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}">Delete</a>
 					<hr>
 					<br>
 				</div>
