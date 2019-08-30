@@ -21,7 +21,11 @@
 		<br>
 		<ul class="container">
 			<sc:forEach items="${products}" var="product">
-				<div class="col-md-3">
+			<div class="col-md-3">
+			
+			<!-- This form's elements will be hidden. their only role is to ensure that when modifying 
+				a product, the search bar is neat (that is, no data is displayed for the user/everything is at the background)-->
+			<form action = "/modify-product.pcat" method = "post">
 					<img src="data:image/jpeg;base64,${product.img}" name="productView"
 						height="100px" />
 					<hr>
@@ -43,14 +47,23 @@
 						<small>Category Description:</small>&nbsp;<small>${product.categoryDescription}
 							&nbsp;&nbsp;</small>
 					</h5>
-					<a class="btn btn-success"
+					<!--  <a class="btn btn-success"
 						href="/modify-product.pcat?product=${product}&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
 				">Modify</a>&nbsp;&nbsp;
-					<a href="/modify-product.pcat?deleteFromView=1&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}">Delete</a>
-					<hr>
+					<a href="/modify-product.pcat?deleteFromView=1&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}">Delete</a><br><br>
+					-->
+				<input type = "hidden"  name = "productName" value="${product.productName}">
+				<input type = "hidden"  name = "productDescription" value="${product.productDescription}">
+				<input type = "hidden"  name = "productColor" value="${product.productColor}">
+				<input type = "hidden"  name = "productPrice" value="${product.productPrice}">
+				<input type = "hidden"  name = "categoryName" value="${product.categoryName}">
+				<input type = "hidden"  name = "categoryDescription" value="${product.categoryDescription}">
+				<input class = "btn btn-success" type = "submit"  name = "modifyFromView" value="Modify">
+				<input class = "btn btn-danger" type = "submit"  name = "deleteFromView" value="Delete">
+				</form>
+				<hr>
 					<br>
 				</div>
-
 			</sc:forEach>
 		</ul>
 		<br> <small>this is not necessary here though, we rather

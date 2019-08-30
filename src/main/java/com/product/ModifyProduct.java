@@ -31,39 +31,39 @@ public class ModifyProduct extends HttpServlet {
 																	// view
 			requestVariable.getRequestDispatcher("/WEB-INF/views/add-new-product.jsp").forward(requestVariable,
 					responseVariable);
-		else {
-			String productName = requestVariable.getParameter("productName");
-			String productDescription = requestVariable.getParameter("productDescription");
-			String productColor = requestVariable.getParameter("productColor");
-			String categoryName = requestVariable.getParameter("categoryName");
-			String categoryDescription = requestVariable.getParameter("categoryDescription");
-			int productPrice = Integer.parseInt(requestVariable.getParameter("productPrice"));
-			// String pict = requestVariable.getParameter("productView");
-
-			System.out.println(productDescription);
-			Product product = new Product(categoryName, categoryDescription, productName, productDescription,
-					productColor, productPrice);
-
-			// set the current product as session variable, this is to enable it to be
-			// accessible even after
-			// this request
-
-			requestVariable.getSession().setAttribute("product", product);
-			if(categoryDescription != null) {
-			// redirect to the page to modify products
-			requestVariable.getRequestDispatcher("/WEB-INF/views/modify-product.jsp").forward(requestVariable,
-					responseVariable);
-			} else {
-				if (!new ProductManagementService().removeProduct(product)) {
-					System.out.println("Unable to delete product");
-					// may redirect to delete product
-				}
-				requestVariable.getSession().removeAttribute("product");
-				responseVariable.sendRedirect("/view-exp-catalog.pcat");
-			}
-		}
+//		else {
+//			String productName = requestVariable.getParameter("productName");
+//			String productDescription = requestVariable.getParameter("productDescription");
+//			String productColor = requestVariable.getParameter("productColor");
+//			String categoryName = requestVariable.getParameter("categoryName");
+//			String categoryDescription = requestVariable.getParameter("categoryDescription");
+//			int productPrice = Integer.parseInt(requestVariable.getParameter("productPrice"));
+//			// String pict = requestVariable.getParameter("productView");
+//
+//			System.out.println(productDescription);
+//			Product product = new Product(categoryName, categoryDescription, productName, productDescription,
+//					productColor, productPrice);
+//
+//			// set the current product as session variable, this is to enable it to be
+//			// accessible even after
+//			// this request
+//
+//			requestVariable.getSession().setAttribute("product", product);
+//			if(categoryDescription != null) {
+//			// redirect to the page to modify products
+//			requestVariable.getRequestDispatcher("/WEB-INF/views/modify-product.jsp").forward(requestVariable,
+//					responseVariable);
+//			} else {
+//				if (!new ProductManagementService().removeProduct(product)) {
+//					System.out.println("Unable to delete product");
+//					// may redirect to delete product
+//				}
+//				requestVariable.getSession().removeAttribute("product");
+//				responseVariable.sendRedirect("/view-exp-catalog.pcat");
+//			}
+//		}
 	}
-	
+
 	@Override
 	public void doPost(HttpServletRequest requestVariable, HttpServletResponse responseVariable)
 			throws ServletException, IOException {
@@ -71,7 +71,7 @@ public class ModifyProduct extends HttpServlet {
 		// product or wishes to add a new product
 
 		ProductManagementService productMService = new ProductManagementService();
-		
+
 		if (requestVariable.getParameter("editProduct") != null) {// code to execute if user wishes to edit product
 			if (!this.editProduct(requestVariable)) {
 				System.out.println("Unable to edit the product");
@@ -90,9 +90,38 @@ public class ModifyProduct extends HttpServlet {
 				System.out.println("Unable to add the product");
 			}
 		}
-		requestVariable.getSession().removeAttribute("product");
-		responseVariable.sendRedirect("/view-exp-catalog.pcat");// after performing relevant logic, return to
-																// view-exp-catalog
+
+		if (requestVariable.getParameter("modifyFromView") != null) {// code to lead the user to modify a product
+			System.out.println("Product is: " + requestVariable.getParameter("productName"));
+
+			// get the neccessary parameters and do the job
+			String productName = requestVariable.getParameter("productName");
+			String productDescription = requestVariable.getParameter("productDescription");
+			String productColor = requestVariable.getParameter("productColor");
+			String categoryName = requestVariable.getParameter("categoryName");
+			String categoryDescription = requestVariable.getParameter("categoryDescription");
+			int productPrice = Integer.parseInt(requestVariable.getParameter("productPrice"));
+
+			Product product = new Product(categoryName, categoryDescription, productName, productDescription,
+					productColor, productPrice);
+
+			// set the current product as session variable, this is to enable it to be
+			// accessible even after
+			// this request
+			requestVariable.getSession().setAttribute("product", product);
+			requestVariable.getRequestDispatcher("/WEB-INF/views/modify-product.jsp").forward(requestVariable,
+					responseVariable);
+
+		} else {//either the user clicked on delete while in the explicit view or they are in the modify product view
+			if (requestVariable.getParameter("deleteFromView") != null) {// code to delete a product while in the explicit view
+				if (this.deleteFromView(requestVariable)) {
+					System.out.println("Successfully deleted from within view");
+				}
+			}//whether the user was in the explicit view or in the modify product view, redirect them the explicit view
+			requestVariable.getSession().removeAttribute("product");
+			responseVariable.sendRedirect("/view-exp-catalog.pcat");
+
+		}
 	}
 
 	// method to add a product as a new one
@@ -122,7 +151,7 @@ public class ModifyProduct extends HttpServlet {
 		foundID = categoryMService.getCategoryID(category);
 
 		// first verify if the product exists
-		if (productMService.getProductID(product) == 0) {//if the product does not exist
+		if (productMService.getProductID(product) == 0) {// if the product does not exist
 			if (foundID != 0) {// if the requested product category exists, add the product
 				if (this.doAddProduct(part, product, foundID)) {
 					System.out.println("Category exists");
@@ -309,5 +338,32 @@ public class ModifyProduct extends HttpServlet {
 			}
 		}
 		return false; // return false if no new product was added
+	}
+
+	// method to delete a product from the view, not neccessarily having to pass
+	// through the modify-product.jsp
+	public boolean deleteFromView(HttpServletRequest requestVariable) {
+		String productName = requestVariable.getParameter("productName");
+		String productDescription = requestVariable.getParameter("productDescription");
+		String productColor = requestVariable.getParameter("productColor");
+		String categoryName = requestVariable.getParameter("categoryName");
+		String categoryDescription = requestVariable.getParameter("categoryDescription");
+		int productPrice = Integer.parseInt(requestVariable.getParameter("productPrice"));
+		// String pict = requestVariable.getParameter("productView");
+
+		System.out.println(productDescription);
+		Product product = new Product(categoryName, categoryDescription, productName, productDescription, productColor,
+				productPrice);
+
+		// set the current product as session variable, this is to enable it to be
+		// accessible even after
+		// this request
+
+		requestVariable.getSession().setAttribute("product", product);
+
+		if (!new ProductManagementService().removeProduct(product)) {
+			return false;
+		}
+		return true;
 	}
 }
