@@ -29,10 +29,10 @@
 					<img src="data:image/jpeg;base64,${product.img}" name="productView"/>
 					<hr>
 					<h5>
-						<small>Name:&nbsp;</small><b>${product.productName}&nbsp;&nbsp;</b><br>
+						<small>Name:&nbsp;</small><b>${product.productName}</b><br>
 					</h5>
 					<h5>
-						<small>Price:</small>&nbsp;<b>${product.productPrice}&nbsp;&nbsp;</b><br>
+						<small>Price:</small>&nbsp;<b>${product.productPrice}&nbsp;<span>FCFA</span></b><br>
 					</h5>
 					<h5>
 						<small>Color:</small>&nbsp;${product.productColor}&nbsp;&nbsp;<br>

@@ -20,12 +20,25 @@
 		<br>
 		<ul class="container table">
 			<sc:forEach items="${category}" var="cat">
+			<div class="col-md-3">
+			<div class ="a-block">
 				<hr>
+				<h1><b>${cat.categoryName}</b><br></h1> 
+				<b>${cat.categoryDescription}</b><br><br>
+				</div>
+				<a class="btn btn-success"
+					href="/view-expcategory-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
+					&nbsp;&nbsp;
+						<hr>
+						</div>
+			
+			
+				<!--  <hr>
 				<li>Category Name:${cat.categoryName}<br> Category
 					Description: ${cat.categoryDescription}<br> 
 					<a href="/view-category-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>
-				</li>
-				<hr>
+				</li> -->
+				
 			</sc:forEach>
 		</ul>
 		<a href="/user-signup.pcat">Sign Up for account</a>

@@ -24,7 +24,7 @@
 					<img src="data:image/jpeg;base64,${product.img}" name="productView"/>
 					<hr>
 					<label>Name:&nbsp;</label><b>${product.productName}</b><br>
-					<label>Price:&nbsp;</label><b>${product.productPrice}</b><br>
+					<label>Price:&nbsp;</label><b>${product.productPrice}&nbsp;<span>FCFA</span></b><br>
 					<label>Color:&nbsp;</label>${product.productColor}<br>
 					<label>Category:&nbsp;</label>${product.categoryName}<br>
 					

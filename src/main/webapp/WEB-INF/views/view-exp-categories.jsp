@@ -25,7 +25,7 @@
 			<div class ="a-block">
 				<hr>
 				<h1><b>${cat.categoryName}</b><br></h1> 
-				<label>Category Description: </label><b>${cat.categoryDescription}</b><br><br>
+				<b>${cat.categoryDescription}</b><br><br>
 				</div>
 				<a class="btn btn-success"
 					href="/view-expcategory-product.pcat?categoryName=${cat.categoryName}&categoryDescription=${cat.categoryDescription}">Explore</a>

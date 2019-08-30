@@ -29,8 +29,8 @@
 				<div class="col-md-3">
 					<img src="data:image/jpeg;base64,${product.img}" name="productView"/>
 						<hr>
-						<small>Name:&nbsp;</small><b>${product.productName}&nbsp;&nbsp;</b><br>
-				<small> Price:&nbsp; </small> <b>${product.productPrice}&nbsp;&nbsp;</b><br>
+						<small>Name:&nbsp;</small><b>${product.productName}</b><br>
+				<small> Price:&nbsp; </small> <b>${product.productPrice}&nbsp;<span>FCFA</span></b><br>
 					<small>${product.productDescription}</small><br> <a class="btn btn-success"
 						href="/modify-product.pcat?product=${product}&productPrice=${product.productPrice}&productName=${product.productName }&productDescription=${product.productDescription}&productColor=${product.productColor}&categoryName=${product.categoryName}&categoryDescription=${product.categoryDescription}
 				">Modify
