@@ -31,37 +31,6 @@ public class ModifyProduct extends HttpServlet {
 																	// view
 			requestVariable.getRequestDispatcher("/WEB-INF/views/add-new-product.jsp").forward(requestVariable,
 					responseVariable);
-//		else {
-//			String productName = requestVariable.getParameter("productName");
-//			String productDescription = requestVariable.getParameter("productDescription");
-//			String productColor = requestVariable.getParameter("productColor");
-//			String categoryName = requestVariable.getParameter("categoryName");
-//			String categoryDescription = requestVariable.getParameter("categoryDescription");
-//			int productPrice = Integer.parseInt(requestVariable.getParameter("productPrice"));
-//			// String pict = requestVariable.getParameter("productView");
-//
-//			System.out.println(productDescription);
-//			Product product = new Product(categoryName, categoryDescription, productName, productDescription,
-//					productColor, productPrice);
-//
-//			// set the current product as session variable, this is to enable it to be
-//			// accessible even after
-//			// this request
-//
-//			requestVariable.getSession().setAttribute("product", product);
-//			if(categoryDescription != null) {
-//			// redirect to the page to modify products
-//			requestVariable.getRequestDispatcher("/WEB-INF/views/modify-product.jsp").forward(requestVariable,
-//					responseVariable);
-//			} else {
-//				if (!new ProductManagementService().removeProduct(product)) {
-//					System.out.println("Unable to delete product");
-//					// may redirect to delete product
-//				}
-//				requestVariable.getSession().removeAttribute("product");
-//				responseVariable.sendRedirect("/view-exp-catalog.pcat");
-//			}
-//		}
 	}
 
 	@Override
