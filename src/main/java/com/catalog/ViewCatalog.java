@@ -41,7 +41,7 @@ public class ViewCatalog extends HttpServlet{
 			//put the connection into session
 			requestVariable.getSession().setAttribute("dbconnection", databaseConnection);
 			
-			products = catalogMService.getProducts(databaseConnection);
+			products = catalogMService.getProducts();
 			if(products.size() != 0) {
 				//put the list in request scope
 				requestVariable.setAttribute("products", products);

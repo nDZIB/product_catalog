@@ -8,23 +8,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.connection.ConnectionManager;
+
 public class ProductManagementService {
 
 	// retrieve the product id
-	public int getProductID(Connection dbconnection, Product product) {
+	public int getProductID(Product product) {
+		Connection dbconnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement pst = dbconnection
 					.prepareStatement("SELECT productID FROM product WHERE productName = ? AND "
-							+ "productDescription = ? AND productColor = ?");// you might want to edit this query to
+							+ "productDescription = ? AND productColor = ? AND productPrice = ?");// you might want to edit this query to
 																				// include other fields
 			pst.setString(1, product.getProductName());
 			pst.setString(2, product.getProductDescription());
 			pst.setString(3, product.getProductColor());
+			pst.setInt(4, product.getProductPrice());
 
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				return (rs.getInt(1));
 			}
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -32,20 +37,25 @@ public class ProductManagementService {
 	}
 
 	// retrieve category id
-	public int getCategoryID(Connection dbconnection, Product product) {
+	public int getCategoryID(Product product) {
+		Connection dbconnection = new ConnectionManager().createConnection();
+		
 		try {
 			PreparedStatement pst = dbconnection
 					.prepareStatement("SELECT categoryID FROM product WHERE productName = ? AND "
-							+ "productDescription = ? AND productColor = ?");// you might want to edit this query to
+							+ "productDescription = ? AND productColor = ? AND productPrice = ?");// you might want to edit this query to
 																				// include other fields
 			pst.setString(1, product.getProductName());
 			pst.setString(2, product.getProductDescription());
 			pst.setString(3, product.getProductColor());
+			pst.setInt(4, product.getProductPrice());
 
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				return (rs.getInt(1));
 			}
+
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -54,7 +64,9 @@ public class ProductManagementService {
 	}
 
 	// modify/edit a product
-	public boolean editProduct(Connection dbconnection, Product newproduct, int newcategoryID, int oldproductID) {
+	public boolean editProduct(Product newproduct, int newcategoryID, int oldproductID) {
+		Connection dbconnection = new ConnectionManager().createConnection();
+		
 		try {
 				PreparedStatement pst2 = dbconnection
 						.prepareStatement("UPDATE product SET categoryID = ?, productName = ?, productPrice = ?, "
@@ -67,6 +79,7 @@ public class ProductManagementService {
 				pst2.setInt(6, oldproductID);
 
 				pst2.executeUpdate();
+				dbconnection.close();
 		} catch (SQLException ex2) {
 			ex2.printStackTrace();
 			return false;
@@ -76,8 +89,9 @@ public class ProductManagementService {
 
 	
 	//edit an existing product given that an image is supplied
-	public boolean editProduct(Connection dbconnection, Product newproduct, int newcategoryID, int oldproductID,
-			InputStream productView) {
+	public boolean editProduct(Product newproduct, int newcategoryID, int oldproductID, InputStream productView) {
+		Connection dbconnection = new ConnectionManager().createConnection();
+		
 		try {
 			PreparedStatement pst2 = dbconnection.prepareStatement("UPDATE product SET categoryID = ?, productName = ?, "
 					+ "productPrice = ?, productDescription = ?, productView = ?, productColor = ? WHERE productID = ?");
@@ -92,6 +106,7 @@ public class ProductManagementService {
 			pst2.setInt(7, oldproductID);
 
 			pst2.executeUpdate();
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -100,16 +115,20 @@ public class ProductManagementService {
 	}
 	
 	// remove a product
-	public boolean removeProduct(Connection dbconnection, Product product) {
+	public boolean removeProduct(Product product) {
+
+		Connection dbconnection = new ConnectionManager().createConnection();
 
 		try {// for better code, you might want to first get the relevant category id before
 				// proceeding
 			PreparedStatement pst = dbconnection.prepareStatement("DELETE FROM product WHERE productName=? AND "
-					+ "productDescription = ?");
+					+ "productDescription = ? AND productPrice = ?");
 			pst.setString(1, product.getProductName());
 			pst.setString(2, product.getProductDescription());
+			pst.setInt(3, product.getProductPrice());
 			pst.executeUpdate();
 
+			dbconnection.close();
 			System.out.println("Okay, product deleted");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -120,10 +139,12 @@ public class ProductManagementService {
 	}
 
 	// add a new product without image provided
-	public boolean addProduct(Connection dbconnection, Product product, int categoryID) {
-		PreparedStatement pst;
+	public boolean addProduct(Product product, int categoryID) {
+		Connection dbconnection = new ConnectionManager().createConnection();
+		
+		//PreparedStatement pst;
 		try {
-			pst = dbconnection.prepareStatement("INSERT IGNORE INTO product(categoryID, productName, productPrice, "
+			PreparedStatement pst = dbconnection.prepareStatement("INSERT IGNORE INTO product(categoryID, productName, productPrice, "
 					+ "productDescription, productColor) VALUES(?,?,?,?,?)");
 
 			pst.setInt(1, categoryID);
@@ -134,6 +155,7 @@ public class ProductManagementService {
 
 			// execute the query
 			pst.executeUpdate();
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -142,7 +164,8 @@ public class ProductManagementService {
 	}
 
 	// add a product to products with an image of the product supplied
-	public boolean addProduct(Connection dbconnection, Product product, int categoryID, InputStream productView) {
+	public boolean addProduct(Product product, int categoryID, InputStream productView) {
+		Connection dbconnection = new ConnectionManager().createConnection();
 		PreparedStatement pst;
 		try {
 			pst = dbconnection.prepareStatement(
@@ -158,6 +181,7 @@ public class ProductManagementService {
 
 			// execute the query
 			pst.executeUpdate();
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -166,9 +190,9 @@ public class ProductManagementService {
 	}
 
 
-	public List<Product> getProducts(Connection databaseConnection) {
+	public List<Product> getProducts() {
 		List<Product> products = new ArrayList<Product>();
-
+		Connection databaseConnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement dbManipulate = databaseConnection
 					.prepareStatement("SELECT " + "productName, productPrice, productView, productDescription, productColor, categoryName, "
@@ -197,16 +221,18 @@ public class ProductManagementService {
 				// add to list
 				products.add(product);
 			}
+			databaseConnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();// if getting the products fails print error to console
 		}
 		return products;
 	}
 	
-	public List<Product> getAllCategoryProducts(Connection databaseConnection, int catID) {
+	public List<Product> getAllCategoryProducts(int catID) {;
 		List<Product> products = new ArrayList<Product>();
-
+		Connection databaseConnection = new ConnectionManager().createConnection();
 		try {
+			System.out.println("Category ID "+catID);
 			PreparedStatement dbManipulate = databaseConnection
 					.prepareStatement("SELECT " + "productName, productPrice, productView, productDescription, productColor, categoryName, "
 							+ "categoryDescription FROM product INNER JOIN category WHERE "
@@ -234,7 +260,9 @@ public class ProductManagementService {
 
 				// add to list
 				products.add(product);
+				System.out.println(products.size());
 			}
+			databaseConnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();// if getting the products fails print error to console
 		}

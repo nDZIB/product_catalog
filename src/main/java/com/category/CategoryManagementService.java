@@ -8,11 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.connection.ConnectionManager;
+
 
 public class CategoryManagementService {
 
 	// method to remove a category
-	public boolean removeCategory(Connection dbconnection, Category category) {
+	public boolean removeCategory(Category category) {
+		Connection dbconnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement pst = dbconnection
 					.prepareStatement("DELETE FROM category WHERE categoryName=? AND categoryDescription=?");
@@ -20,6 +23,7 @@ public class CategoryManagementService {
 			pst.setString(2, category.getCategoryDescription());
 			pst.execute();
 
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -28,7 +32,8 @@ public class CategoryManagementService {
 	}
 
 	// method to update (edit) a category
-	public boolean editCategory(Connection dbconnection, Category oldCategory, Category newCategory) {
+	public boolean editCategory(Category oldCategory, Category newCategory) {
+		Connection dbconnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement pst = dbconnection.prepareStatement("UPDATE category SET categoryName= ?, "
 					+ "categoryDescription = ? WHERE categoryName=? AND categoryDescription= ?");
@@ -39,6 +44,7 @@ public class CategoryManagementService {
 			pst.setString(4, oldCategory.getCategoryDescription());
 
 			pst.execute();
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -47,7 +53,8 @@ public class CategoryManagementService {
 	}
 
 	// ADD A NEW CATEGORY
-	public boolean addNewCategory(Connection dbconnection, Category newCategory) {
+	public boolean addNewCategory(Category newCategory) {
+		Connection dbconnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement pst = dbconnection.prepareStatement(
 					"INSERT IGNORE INTO category(categoryName, categoryDescription) VALUES(?,?)");
@@ -57,6 +64,7 @@ public class CategoryManagementService {
 			pst.setString(2, newCategory.getCategoryDescription());
 			pst.execute();
 
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -65,7 +73,8 @@ public class CategoryManagementService {
 	}
 
 	// retrieve category id
-	public int getCategoryID(Connection dbconnection, Category category) {
+	public int getCategoryID(Category category) {
+		Connection dbconnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement pst = dbconnection.prepareStatement(
 					"SELECT categoryID FROM category WHERE categoryName = ? AND " + "categoryDescription = ? ");
@@ -77,15 +86,17 @@ public class CategoryManagementService {
 			if (rs.next()) {
 				return (rs.getInt(1));
 			}
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return 2;
+			return 0;
 		}
 		return 0;
 	}
 
 	// add a new category and retrieve its id
-	public int addCategory(Connection dbconnection, Category category) {
+	public int addCategory(Category category) {
+		Connection dbconnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement pst2 = dbconnection.prepareStatement(
 					"INSERT IGNORE INTO category(categoryName, categoryDescription) VALUES(?,?)",
@@ -96,8 +107,10 @@ public class CategoryManagementService {
 			pst2.executeUpdate();// i now have the id of the new category
 			ResultSet rs2 = pst2.getGeneratedKeys();
 
-			while (rs2.next())
+			while (rs2.next()) {
 				return (rs2.getInt(1));
+			}
+			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -105,8 +118,9 @@ public class CategoryManagementService {
 	}
 	
 	// get all categories
-	public List<Category> getAllCategories(Connection dbconnection) {
+	public List<Category> getAllCategories() {
 		List<Category> allCategories = new ArrayList<Category>();
+		Connection dbconnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement pst = dbconnection.prepareStatement("SELECT categoryName, categoryDescription "
 					+ "FROM category");
@@ -117,6 +131,7 @@ public class CategoryManagementService {
 				
 				allCategories.add(newCategory);
 			}
+			dbconnection.close();
 		} catch(SQLException ex) {
 			ex.printStackTrace();
 			System.out.println("Unable to retrieve list of products");

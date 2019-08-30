@@ -7,14 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.connection.ConnectionManager;
 import com.product.Product;
 
 public class CatalogManagementService {
 	List<Product> products = new ArrayList<Product>();// list to hold all available products
 
 	// get all the products
-	public List<Product> getProducts(Connection databaseConnection) {
-
+	public List<Product> getProducts() {
+		Connection databaseConnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement dbManipulate = databaseConnection
 					.prepareStatement("SELECT " + "productName, productPrice, productView, productDescription, productColor, categoryName, "
@@ -42,6 +43,7 @@ public class CatalogManagementService {
 				// add to list
 				products.add(product);
 			}
+			databaseConnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();// if getting the products fails print error to console
 		}

@@ -1,7 +1,6 @@
 package com.catalog;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,12 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.category.Category;
 import com.category.CategoryManagementService;
-import com.connection.ConnectionManager;
 import com.product.Product;
 import com.product.ProductManagementService;
 
 @WebServlet(urlPatterns = "/view-expcategory-product.pcat")
 public class ViewExpCategoryProduct extends HttpServlet{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest requestVariable, HttpServletResponse responseVariable) 
@@ -25,14 +28,14 @@ public class ViewExpCategoryProduct extends HttpServlet{
 		
 		String categoryName = requestVariable.getParameter("categoryName");
 		String categoryDescription = requestVariable.getParameter("categoryDescription");
-		Connection databaseConnecton = new ConnectionManager().createConnection();
+		//Connection databaseConnecton = new ConnectionManager().createConnection();
 		
 		Category category = new Category(categoryName, categoryDescription);
 		
 		//CategoryManagementService categoryMService = new CategoryManagementService();
-		int catID = new CategoryManagementService().getCategoryID(databaseConnecton, category);
+		int catID = new CategoryManagementService().getCategoryID(category);
 		
-		List<Product> products = new ProductManagementService().getAllCategoryProducts(databaseConnecton, catID);
+		List<Product> products = new ProductManagementService().getAllCategoryProducts(catID);
 		System.out.println(products.size());
 		
 		requestVariable.setAttribute("category", category);

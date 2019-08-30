@@ -1,7 +1,6 @@
 package com.category;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,11 +43,10 @@ public class ModifyCategory extends HttpServlet {
 
 		CategoryManagementService manageCategory = new CategoryManagementService();
 
-		Connection dbconnection = (Connection) requestVariable.getSession().getAttribute("dbconnection");
 		if (requestVariable.getParameter("deleteCategory") != null) {// if user wishes to delete a category
 			Category category = (Category) requestVariable.getSession().getAttribute("category");
 
-			manageCategory.removeCategory(dbconnection, category);
+			manageCategory.removeCategory(category);
 		} else if (requestVariable.getParameter("editCategory") != null) {// if a user wishes to edit a category
 			String newCategoryDescription = requestVariable.getParameter("newCategoryDescription").toString();
 			String newCategoryName = requestVariable.getParameter("newCategoryName").toString();
@@ -57,7 +55,7 @@ public class ModifyCategory extends HttpServlet {
 			Category oldcategory = (Category) requestVariable.getSession().getAttribute("category");
 
 			if (newCategory.isComplete()) {
-				if (manageCategory.editCategory(dbconnection, oldcategory, newCategory))
+				if (manageCategory.editCategory(oldcategory, newCategory))
 					System.out.println("Category updated");
 				else 
 					System.out.println("Modify Category: Unable to update the category");
@@ -75,11 +73,11 @@ public class ModifyCategory extends HttpServlet {
 
 			
 			if (newCategory.isComplete()) {
-				int catID = manageCategory.getCategoryID(dbconnection, newCategory);
+				int catID = manageCategory.getCategoryID(newCategory);
 				System.out.println("category id = "+catID);
 				
 				if(catID <= 0) {//if no such category exists
-					if (manageCategory.addNewCategory(dbconnection, newCategory))
+					if (manageCategory.addNewCategory(newCategory))
 						System.out.println("Modify Category: Category was added");
 				} else {
 					System.out.println("Modify Category: Category was added");
