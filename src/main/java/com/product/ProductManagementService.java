@@ -138,19 +138,20 @@ public class ProductManagementService {
 	}
 
 	// add a new product without image provided
-	public boolean addProduct(Product product, int categoryID) {
+	public boolean addProduct(Product product, int categoryID, int userID) {
 		Connection dbconnection = new ConnectionManager().createConnection();
 		
 		//PreparedStatement pst;
 		try {
-			PreparedStatement pst = dbconnection.prepareStatement("INSERT IGNORE INTO product(categoryID, productName, productPrice, "
-					+ "productDescription, productColor) VALUES(?,?,?,?,?)");
+			PreparedStatement pst = dbconnection.prepareStatement("INSERT IGNORE INTO product(userID, categoryID, productName, productPrice, "
+					+ "productDescription, productColor) VALUES(?,?,?,?,?,?)");
 
-			pst.setInt(1, categoryID);
-			pst.setString(2, product.getProductName());
-			pst.setInt(3, product.getProductPrice());
-			pst.setString(4, product.getProductDescription());
-			pst.setString(5, product.getProductColor());
+			pst.setInt(1, userID);
+			pst.setInt(2, categoryID);
+			pst.setString(3, product.getProductName());
+			pst.setInt(4, product.getProductPrice());
+			pst.setString(5, product.getProductDescription());
+			pst.setString(6, product.getProductColor());
 
 			// execute the query
 			pst.executeUpdate();
@@ -163,20 +164,21 @@ public class ProductManagementService {
 	}
 
 	// add a product to products with an image of the product supplied
-	public boolean addProduct(Product product, int categoryID, InputStream productView) {
+	public boolean addProduct(Product product, int categoryID, InputStream productView, int userID) {
 		Connection dbconnection = new ConnectionManager().createConnection();
 		PreparedStatement pst;
 		try {
 			pst = dbconnection.prepareStatement(
-					"INSERT IGNORE INTO product(categoryID, productName, productPrice, productView, productDescription,"
-							+ " productColor) VALUES(?,?,?,?,?,?)");
+					"INSERT IGNORE INTO product(userID, categoryID, productName, productPrice, productView, productDescription,"
+							+ " productColor) VALUES(?,?,?,?,?,?,?)");
 
-			pst.setInt(1, categoryID);
-			pst.setString(2, product.getProductName());
-			pst.setInt(3, product.getProductPrice());
-			pst.setBlob(4, productView);
-			pst.setString(5, product.getProductDescription());
-			pst.setString(6, product.getProductColor());
+			pst.setInt(1, userID);
+			pst.setInt(2, categoryID);
+			pst.setString(3, product.getProductName());
+			pst.setInt(4, product.getProductPrice());
+			pst.setBlob(5, productView);
+			pst.setString(6, product.getProductDescription());
+			pst.setString(7, product.getProductColor());
 
 			// execute the query
 			pst.executeUpdate();

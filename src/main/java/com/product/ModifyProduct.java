@@ -14,6 +14,7 @@ import javax.servlet.http.Part;
 
 import com.category.Category;
 import com.category.CategoryManagementService;
+import com.systemuser.UserAuthenticationService;
 
 @WebServlet(urlPatterns = "/modify-product.pcat")
 @MultipartConfig(maxFileSize = 16177215)
@@ -109,6 +110,7 @@ public class ModifyProduct extends HttpServlet {
 		String categoryDescription = requestVariable.getParameter("newCategoryDescription");
 		int productPrice = Integer.parseInt(requestVariable.getParameter("newProductPrice"));
 
+		int userID = (int)requestVariable.getSession().getAttribute("userID");
 		// get the image if it exists
 		Part part = requestVariable.getPart("productView");
 
@@ -122,8 +124,8 @@ public class ModifyProduct extends HttpServlet {
 		// first verify if the product exists
 		if (productMService.getProductID(product) == 0) {// if the product does not exist
 			if (foundID != 0) {// if the requested product category exists, add the product
-				if (this.doAddProduct(part, product, foundID)) {
-					System.out.println("Category exists");
+				if (this.doAddProduct(part, product, foundID, userID)) {
+					System.out.println("Category exists: Product was added");
 					return true;
 				}
 			} else {// otherwise if the category does not exist, add it and proceed
@@ -139,13 +141,13 @@ public class ModifyProduct extends HttpServlet {
 				// from here, productView is bound not to be null, but for redundancy, still do
 				// the test
 				if (productView != null) {
-					if (this.addProductAndCategory(product, category, productView)) {
+					if (this.addProductAndCategory(product, category, productView, userID)) {
 						System.out.println("Category does not exist does not exist");
 						return true;
 					}
 				} else {// if the image is invalid (though this code may never be executed) no need for
 						// the above if
-					if (this.addProductAndCategory(product, category))
+					if (this.addProductAndCategory(product, category, userID))
 						return true;
 				}
 			}
@@ -213,16 +215,17 @@ public class ModifyProduct extends HttpServlet {
 					}
 
 				} else {// otherwise if the category does not exist, add it and proceed
+					int userID = (int)requestVariable.getSession().getAttribute("userID");
 					if (part.getSize() != 0) {// if the user selects a file
 						productView = part.getInputStream();
 						if (productView != null) {// and the file is a valid image file, add the new product with its
 													// image
-							if (this.addProductAndCategory(oldProduct, category, productView))// if the new product was
+							if (this.addProductAndCategory(oldProduct, category, productView, userID))// if the new product was
 																								// added
 								return true;
 						}
 					} else // the file is not a valid image file
-					if (this.addProductAndCategory(oldProduct, category))
+					if (this.addProductAndCategory(oldProduct, category, userID))
 						return true;
 				}
 			} else {// if the provided old product's category does not exist/ this most always exist
@@ -239,13 +242,13 @@ public class ModifyProduct extends HttpServlet {
 	}
 
 	// method to add a category, then a product
-	public boolean addProductAndCategory(Product product, Category category) {
+	public boolean addProductAndCategory(Product product, Category category, int userID) {
 		CategoryManagementService categoryMService = new CategoryManagementService();
 		ProductManagementService productMService = new ProductManagementService();
 
 		int newCategoryID = categoryMService.addCategory(category);
 		if (newCategoryID != 0) {// if the category was successfully added
-			if (!productMService.addProduct(product, newCategoryID)) {// attempt to add the product
+			if (!productMService.addProduct(product, newCategoryID, userID)) {// attempt to add the product
 				System.out.println("New product was not added");
 				return false;
 			}
@@ -258,13 +261,13 @@ public class ModifyProduct extends HttpServlet {
 	}
 
 	// method to add a category and a product with an image provided
-	public boolean addProductAndCategory(Product product, Category category, InputStream productView) {
+	public boolean addProductAndCategory(Product product, Category category, InputStream productView, int userID) {
 		CategoryManagementService categoryMService = new CategoryManagementService();
 		ProductManagementService productMService = new ProductManagementService();
 
 		int newCategoryID = categoryMService.addCategory(category);
 		if (newCategoryID != 0) {// if the category was successfully added
-			if (!productMService.addProduct(product, newCategoryID, productView))// attempt to add the new
+			if (!productMService.addProduct(product, newCategoryID, productView, userID))// attempt to add the new
 																					// product
 				return false;// return false if it fails
 		} else {// if the new category was not added
@@ -277,7 +280,7 @@ public class ModifyProduct extends HttpServlet {
 
 	// supercode to add a new product(adding the product sets a default image if no
 	// image is specified
-	public boolean doAddProduct(Part part, Product product, int foundID) throws IOException {
+	public boolean doAddProduct(Part part, Product product, int foundID, int userID) throws IOException {
 
 		ProductManagementService productMService = new ProductManagementService();
 
@@ -285,14 +288,14 @@ public class ModifyProduct extends HttpServlet {
 		if (part.getSize() > 0) {
 			productView = part.getInputStream();
 			if (productView != null) // if image exists, add the new product
-				if (productMService.addProduct(product, foundID, productView))
+				if (productMService.addProduct(product, foundID, productView, userID))
 					return true;
 				else {// add new product without image(a default image) this will hardly ever be
 						// executed though
 					String pat = System.getProperty("user.dir");
 					pat = pat + "\\src\\main\\resources\\def_image.png";
 					productView = new FileInputStream(pat);
-					if (productMService.addProduct(product, foundID, productView)) {
+					if (productMService.addProduct(product, foundID, productView, userID)) {
 						productView.close();
 						return true;
 					}
@@ -301,7 +304,7 @@ public class ModifyProduct extends HttpServlet {
 			String pat = System.getProperty("user.dir");
 			pat = pat + "\\src\\main\\resources\\def_image.png";
 			productView = new FileInputStream(pat);
-			if (productMService.addProduct(product, foundID, productView)) {
+			if (productMService.addProduct(product, foundID, productView, userID)) {
 				productView.close();
 				return true;
 			}
