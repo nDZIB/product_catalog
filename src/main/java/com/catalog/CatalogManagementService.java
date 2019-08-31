@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.connection.ConnectionManager;
 import com.product.Product;
-import com.systemuser.CurrentSystemUser;
 
 public class CatalogManagementService {
 	

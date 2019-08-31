@@ -24,11 +24,7 @@ public class LogCurrentSystemUserIn extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest requestVariable, HttpServletResponse responseVariable) 
 		throws ServletException, IOException {
-		Connection dbconnection =  (Connection)requestVariable.getSession().getAttribute("dbconnection");
-		if(dbconnection == null) {
-			dbconnection = new ConnectionManager().createConnection();
-			requestVariable.getSession().setAttribute("dbconnection", dbconnection);
-		}
+		
 		String userName = requestVariable.getParameter("userName");
 		String userPassword = requestVariable.getParameter("userPassword");
 		

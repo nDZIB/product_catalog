@@ -2,7 +2,6 @@ package com.catalog;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.connection.ConnectionManager;
 import com.product.Product;
-import com.systemuser.UserAuthenticationService;
 
 
 
@@ -65,30 +63,19 @@ public class ViewExpCatalog extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest requestVariable, HttpServletResponse responseVariable) 
 		throws ServletException, IOException {
-		/*when the user visits the landing page, access is created to the database and the
-		the product catalog is displayed*/
 		
-		
-		//List<Product> products = new ArrayList<Product>();//list to hold all available products
 		CatalogManagementService catalogMService  = new CatalogManagementService();
-		//get connection to the product catalog database from current session
 	
+			//get the current user's id from session
 			int userID = (int)requestVariable.getSession().getAttribute("userID");
 			
 			List<Product> myProducts = catalogMService.getProducts(userID);
 			List<Product> otherProducts = catalogMService.getOtherProducts(userID);
-			System.out.println(myProducts.size());
-			//if(products.size() != 0) 
-			{
-				//put the list in request scope
+				//put the lists in request scope
 				requestVariable.setAttribute("myProducts", myProducts);
 				requestVariable.setAttribute("otherProducts", otherProducts);
 				
 				//forward the request to the view(view-catalog)
 				requestVariable.getRequestDispatcher("/WEB-INF/views/view-exp-catalog.jsp").forward(requestVariable, responseVariable);	
-			} 
-//			else {//if there are no products to display
-//				System.out.println("No products to display");
-//			}
 	}
 }
