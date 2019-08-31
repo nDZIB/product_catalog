@@ -29,6 +29,7 @@ public class ViewCatalog extends HttpServlet{
 		throws ServletException, IOException {
 		/*when the user visits the landing page, access is created to the database and the
 		the product catalog is displayed*/
+		/*the user can view all the products they've created*/
 		
 		List<Product> products = new ArrayList<Product>();//list to hold all available products
 		ConnectionManager connectionManager = new ConnectionManager();
@@ -39,13 +40,12 @@ public class ViewCatalog extends HttpServlet{
 		if(databaseConnection!= null) {
 			//if the connection was successful
 			//put the connection into session
-			requestVariable.getSession().setAttribute("dbconnection", databaseConnection);
+			//requestVariable.getSession().setAttribute("dbconnection", databaseConnection);
 			
 			products = catalogMService.getProducts();
 			if(products.size() != 0) {
 				//put the list in request scope
 				requestVariable.setAttribute("products", products);
-				
 				//forward the request to the view(view-catalog)
 				requestVariable.getRequestDispatcher("/WEB-INF/views/view-catalog.jsp").forward(requestVariable, responseVariable);	
 			} else {//if there are no products to display

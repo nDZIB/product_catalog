@@ -22,7 +22,7 @@ public class ConnectionManager {
 		
 		//setting the location and access privileges for the database handling storage
 		//for the user shopVisitor, password is hopVisito
-		String url = "jdbc:mysql://localhost:3306/productcatalog";
+		String url = "jdbc:mysql://localhost:3306/new_product_catalog";
 	    String user = "shopVisitor";
 	    String password = "hopVisito";
 	    
