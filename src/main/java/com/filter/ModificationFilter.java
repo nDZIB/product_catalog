@@ -26,7 +26,7 @@ public class ModificationFilter implements Filter{
 		HttpServletRequest requestVariable = (HttpServletRequest)request;
 		HttpServletResponse responseVariable = (HttpServletResponse)response;
 		
-		if(requestVariable.getSession().getAttribute("userName") != null) {
+		if(requestVariable.getSession().getAttribute("userID") != null) {
 			fChain.doFilter(requestVariable, responseVariable);
 		} else {
 			responseVariable.sendRedirect("/view-catalog.pcat");

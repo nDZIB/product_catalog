@@ -42,7 +42,8 @@ public class LogCurrentSystemUserIn extends HttpServlet{
 		}
 		
 		if(userExists) {//if the current user exists, grant them access to the system
-			requestVariable.getSession().setAttribute("userName", currentSystemUser.getUserPassword());
+			requestVariable.getSession().setAttribute("userID", userValidator.getUserID(currentSystemUser));
+			
 			responseVariable.sendRedirect("/view-exp-catalog.pcat");
 		} else {//if the user does not exist, keep user in view-catalog
 			responseVariable.sendRedirect("/view-catalog.pcat");
