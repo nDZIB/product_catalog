@@ -59,8 +59,10 @@
 				<input type = "hidden"  name = "productPrice" value="${otherproduct.productPrice}">
 				<input type = "hidden"  name = "categoryName" value="${otherproduct.categoryName}">
 				<input type = "hidden"  name = "categoryDescription" value="${otherproduct.categoryDescription}">
+				<!--  
 				<input class = "btn btn-success" type = "submit"  name = "modifyFromView" value="Modify">
 				<input class = "btn btn-danger" type = "submit"  name = "deleteFromView" value="Delete">
+				-->
 				</form>
 				<hr>
 					<br>
