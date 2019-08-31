@@ -46,13 +46,13 @@ public class SignUpNewSystemUser extends HttpServlet{
 		boolean userISSignedUp = false;
 		//check whether or not the user is already Signed up
 		
-		if(!userAuthenticator.userExists(newsystemuser.getUserName(), newsystemuser.getUserPassword()))//user doesn not exist
+		if(!userAuthenticator.userExists(newsystemuser))//user doesn't not exist
 			userISSignedUp = userAuthenticator.signupUser(newsystemuser);//then sign them up
 		
 		
 		if (userISSignedUp) {// if the user is successfully signed up
 			System.out.println("signed up");
-			boolean userExists = userAuthenticator.userExists(userName, userPassword);//then log them in
+			boolean userExists = userAuthenticator.userExists(new CurrentSystemUser(userName, userPassword));//then log them in
 			if (userExists) {
 				requestVariable.getSession().setAttribute("userName", userName);
 				responseVariable.sendRedirect("/view-exp-catalog.pcat");

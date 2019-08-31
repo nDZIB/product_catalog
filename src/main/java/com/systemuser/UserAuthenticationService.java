@@ -9,23 +9,32 @@ import com.connection.ConnectionManager;
 
 public class UserAuthenticationService {
 
-	public boolean userExists(String userName, String userPassword) {
+	//method to return a given user's id
+	public int getUserID(CurrentSystemUser thisUser)  {
 		Connection dbconnection = new ConnectionManager().createConnection();
 		try {
 			PreparedStatement pst = dbconnection
 					.prepareStatement("SELECT userID FROM systemuser " + "WHERE userName = ? AND userPassword = ?");
-			pst.setString(1, userName);
-			pst.setString(2, userPassword);
+			pst.setString(1, thisUser.getUserName());
+			pst.setString(2, thisUser.getUserPassword());
 
 			ResultSet rs = pst.executeQuery();
 
 			if (rs.next())
-				return true;
+				return rs.getInt(1);
 			dbconnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return 0;
+	}
+	
+	
+	//verify if a given user exists
+	public boolean userExists(CurrentSystemUser currentUser) {
+		if(this.getUserID(currentUser) == 0)
+			return false;
+		return true;
 	}
 
 	// method to insert a new user
@@ -34,7 +43,7 @@ public class UserAuthenticationService {
 		// if the current user does not exist, then add them
 		try {
 			PreparedStatement pst = dbconnection.prepareStatement(
-					"INSERT INTO systemuser (userRealName, userName, " + "userPassword) VALUES(?,?,?)");
+					"INSERT IGNORE INTO systemuser (userRealName, userName, " + "userPassword) VALUES(?,?,?)");
 
 			pst.setString(1, systemuser.getUserRealName());
 			pst.setString(2, systemuser.getUserName());

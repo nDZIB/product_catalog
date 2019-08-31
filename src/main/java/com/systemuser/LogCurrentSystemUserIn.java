@@ -38,7 +38,7 @@ public class LogCurrentSystemUserIn extends HttpServlet{
 		
 		boolean userExists = false;//assume the user does not exist
 		if(currentSystemUser.isComplete()) {//if the current user has a name and password
-			userExists = userValidator.userExists(currentSystemUser.getUserName(), currentSystemUser.getUserPassword());// then verify that the user has signed up
+			userExists = userValidator.userExists(currentSystemUser);// then verify that the user has signed up
 		}
 		
 		if(userExists) {//if the current user exists, grant them access to the system
@@ -70,7 +70,7 @@ public class LogCurrentSystemUserIn extends HttpServlet{
 		
 		boolean userIsSignedUp = false;
 		if(currentSystemUser.isComplete()) //if the current user is valid, then verify if they have signed up
-			userIsSignedUp = userAuthenticator.userExists(currentSystemUser.getUserName(), currentSystemUser.getUserPassword());
+			userIsSignedUp = userAuthenticator.userExists(currentSystemUser);
 		
 		if(userIsSignedUp) {
 			requestVariable.getSession().setAttribute("userName", userName);
