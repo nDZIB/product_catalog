@@ -30,15 +30,18 @@ public class ViewExpCategoryProduct extends HttpServlet{
 		//Connection databaseConnecton = new ConnectionManager().createConnection();
 		
 		Category category = new Category(categoryName, categoryDescription);
+		int userID = (int)requestVariable.getSession().getAttribute("userID");
 		
 		//CategoryManagementService categoryMService = new CategoryManagementService();
 		int catID = new CategoryManagementService().getCategoryID(category);
 		
-		List<Product> products = new CatalogManagementService().getAllCategoryProducts(catID);
-		System.out.println(products.size());
+		List<Product> myProducts = new CatalogManagementService().getMyCategoryProducts(catID, userID);
+		List<Product> otherProducts = new CatalogManagementService().getOtherCategoryProducts(catID, userID);
+		System.out.println(otherProducts.size());
 		
 		requestVariable.setAttribute("category", category);
-		requestVariable.setAttribute("products", products);
+		requestVariable.setAttribute("myProducts", myProducts);
+		requestVariable.setAttribute("otherProducts", otherProducts);
 		requestVariable.getRequestDispatcher("/WEB-INF/views/view-expcategory-product.jsp").forward(requestVariable, responseVariable);
 	}
 }
