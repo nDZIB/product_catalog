@@ -12,7 +12,15 @@
 		<h3>${category.categoryDescription}</h3>
 		
 		<br>	
-		<ul class = "container"><li><a href="/view-categories.pcat">Product Categories</a></li></ul>
+		
+		
+		<div class = "container">
+		<nav class = "navbar navbar-right">
+		<ul class = "nav navbar">
+		<li><a href="/view-categories.pcat">Product Categories</a></li>
+		</ul>
+		</nav>
+		</div>
 		<ul class = "container">
 			<sc:forEach items="${products}" var="product">
 			<div class ="col-md-3"><img src="data:image/jpeg;base64,${product.img}" name ="productView"/>
@@ -26,16 +34,8 @@
 				
 			</sc:forEach>
 		</ul>
-			<a href="/user-signup.pcat">Sign Up for account</a>
-			<form action="/login.pcat" method="POST" class ="sign-in-form">
-				<fieldset>
-					<legend>Login</legend>
-					<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
-					<label>Password:&nbsp;</label><input type="password"
-						name="userPassword"><br> <input type="submit"
-						value="Login">
-				</fieldset>
-			</form>
+			<a class = "btn" href="/user-signup.pcat">Sign Up for account</a>
+		<%@ include file = "../common-files/signupform.jspf" %>
 		</div>
 	<%@ include file="../common-files/comfooter.jspf"%>
 </body>

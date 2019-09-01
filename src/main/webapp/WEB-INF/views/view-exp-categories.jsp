@@ -42,15 +42,7 @@
 		<br>
 		<br>
 		<a class = "link" href="/user-signup.pcat">Sign Up for account</a>
-		<form action="/login.pcat" method="POST" class="sign-in-form">
-			<fieldset>
-				<legend>Switch User</legend>
-				<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
-				<label>Password:&nbsp;</label><input type="password"
-					name="userPassword"><br> <input  class = "btn btn-success" type="submit"
-					value="Login">
-			</fieldset>
-		</form>
+		<%@ include file = "../common-files/signupform.jspf" %>
 	</div>
 	<%@ include file="../common-files/comfooter.jspf"%>
 </body>

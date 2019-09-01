@@ -9,15 +9,18 @@
 <link rel="stylesheet" href="/WEB-INF/views/main.css">
 <style>
 .footer {
-	padding: 5px;
-	position: fixed;
+	position: relative;
 	bottom: 0;
 	width: 100%;
 	height: auto;
+	z-index:0;
 	background-color: orange;
 	
 }
 
+.form-control {
+	width: 50%;
+}
 ul.nav>li {
 	font-size: 25px;
 }

@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.category.CategoryManagementService;
-
 @WebServlet(urlPatterns = "/view-exp-categories.pcat")
 public class ViewExpCategories extends HttpServlet{
 	
@@ -22,10 +20,8 @@ public class ViewExpCategories extends HttpServlet{
 	protected void doGet(HttpServletRequest requestVariable, HttpServletResponse responseVariable) 
 		throws ServletException, IOException{
 		
-		CategoryManagementService categoryMService = new CategoryManagementService();
-		
 		//get all the categories and set them as a request attribute
-		requestVariable.setAttribute("category", categoryMService.getAllCategories());
+		requestVariable.setAttribute("category", new CatalogManagementService().getAllCategories());
 		//forward the request to the view
 		requestVariable.getRequestDispatcher("/WEB-INF/views/view-exp-categories.jsp").forward(requestVariable, responseVariable);
 	}

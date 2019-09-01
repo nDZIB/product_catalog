@@ -7,24 +7,22 @@
 <body>
 	<%@ include file="../common-files/comnavbar.jspf"%>
 	<div class="container">
-		<h1>Modify products</h1>
+		<h1>Modify product</h1>
 
 		<form action="/modify-product.pcat" method="post" enctype="multipart/form-data">
-				<label>Product Name&nbsp;</label><input type="text" value="${product.productName}"
+				<label>Product Name&nbsp;</label><input class =  "form-control" type="text" value="${product.productName}"
 				name="newProductName"><br> <label>Product
-				Color: &nbsp;</label><input type="text" value="${product.productColor}"
+				Color: &nbsp;</label><input class =  "form-control" type="text" value="${product.productColor}"
 				name="newProductColor"><br> <label>Product
-				Description: &nbsp;</label><input type="text"
+				Description: &nbsp;</label><input class =  "form-control" type="text"
 				value="${product.productDescription}" name="newProductDescription"><br>
-			<label>Product category: &nbsp;</label><input type="text"
+			<label>Product category: &nbsp;</label><input class =  "form-control" type="text"
 				value="${product.categoryName}" name="newCategoryName"><br>
-			<label>Category Description: &nbsp;</label><input type="text"
+			<label>Category Description: &nbsp;</label><input class =  "form-control" type="text"
 				value="${product.categoryDescription}" name="newCategoryDescription"><br>
-			<label>Price:</label><input type="text" value="${product.productPrice}" name= "newProductPrice"><br>
+			<label>Price:</label><input class =  "form-control" type="text" value="${product.productPrice}" name= "newProductPrice"><br>
 			
-			
-			<input
-				type="file" name="productView" value = "Product Preview" placeholder = "product preview" />
+			<label>Product Picture</label><input class = "form-control"type="file" name="productView"/>
 
 			<input class = "btn btn-success" type="submit" value="Save" name="editProduct">&nbsp; 
 			<input class = "btn btn-danger" 

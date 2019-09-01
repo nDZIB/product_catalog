@@ -13,11 +13,11 @@
 			<form action="/user-signup.pcat" method="POST">
 				<fieldset>
 					<legend>Sign Up For A User Account</legend>
-					<label>Your name:&nbsp;</label><input type="text"
+					<label>Your name:&nbsp;</label><input class =  "form-control" type="text"
 						name="userRealName"><br> <label>User
-						Name:&nbsp;</label><input type="text" name="userName"><br> <label>Password:&nbsp;</label><input
-						type="password" name="userPassword"><br> <input
-						type="submit" value="Sign Up">
+						Name:&nbsp;</label><input class =  "form-control" type="text" name="userName"><br> <label>Password:&nbsp;
+					</label><input class =  "form-control" type="password" name="userPassword"><br>
+					<input class = "btn" type="submit" value="Sign Up">
 				</fieldset>
 			</form>
 		</div>

@@ -9,9 +9,9 @@
 		<h1>Modify category</h1>
 
 		<form action="/modify-category.pcat" method="post">
-			<label>Category Name: &nbsp;</label><input type="text" value="${category.categoryName}"
+			<label>Category Name: &nbsp;</label><input class =  "form-control" type="text" value="${category.categoryName}"
 				name="newCategoryName"><br> 
-			<label>Description: &nbsp;</label><input type="text"
+			<label>Description: &nbsp;</label><input class =  "form-control" type="text"
 				value="${category.categoryDescription}"
 				name="newCategoryDescription"><br><br>
 				<input class = "btn btn-success" type="submit"

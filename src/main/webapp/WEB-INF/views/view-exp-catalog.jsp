@@ -66,17 +66,8 @@
 				</div>
 			</sc:forEach>
 		</ul>
-		<br> <small>this is not necessary here though, we rather
-			need to logout</small>
-		<form action="/login.pcat" method="POST">
-			<fieldset>
-				<legend>Switch User</legend>
-				<label>User Name:&nbsp;</label><input type="text" name="userName"><br>
-				<label>Password:&nbsp;</label><input type="password"
-					name="userPassword"><br> <input type="submit"
-					value="Login">
-			</fieldset>
-		</form>
+		<h1>Switch User</h1>
+		<%@ include file = "../common-files/signupform.jspf" %>
 	</div>
 
 	<%@ include file="../common-files/comfooter.jspf"%>

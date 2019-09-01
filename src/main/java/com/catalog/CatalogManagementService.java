@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.category.Category;
 import com.connection.ConnectionManager;
 import com.product.Product;
 
@@ -91,4 +92,26 @@ public class CatalogManagementService {
 		}
 		return products;
 	}
+	
+	// get all categories
+		public List<Category> getAllCategories() {
+			List<Category> allCategories = new ArrayList<Category>();
+			Connection dbconnection = new ConnectionManager().createConnection();
+			try {
+				PreparedStatement pst = dbconnection.prepareStatement("SELECT DISTINCT categoryName, categoryDescription "
+						+ "FROM category");
+				
+				ResultSet setOfCategories = pst.executeQuery();
+				while(setOfCategories.next()) {
+					Category newCategory = new Category(setOfCategories.getString(1), setOfCategories.getString(2));
+					
+					allCategories.add(newCategory);
+				}
+				dbconnection.close();
+			} catch(SQLException ex) {
+				ex.printStackTrace();
+				System.out.println("Unable to retrieve list of products");
+			}
+			return allCategories;
+		}
 }

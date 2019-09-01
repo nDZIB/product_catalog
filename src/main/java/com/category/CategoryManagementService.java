@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.connection.ConnectionManager;
 
@@ -115,27 +113,5 @@ public class CategoryManagementService {
 			e.printStackTrace();
 		}
 		return 0;
-	}
-	
-	// get all categories
-	public List<Category> getAllCategories() {
-		List<Category> allCategories = new ArrayList<Category>();
-		Connection dbconnection = new ConnectionManager().createConnection();
-		try {
-			PreparedStatement pst = dbconnection.prepareStatement("SELECT categoryName, categoryDescription "
-					+ "FROM category");
-			
-			ResultSet setOfCategories = pst.executeQuery();
-			while(setOfCategories.next()) {
-				Category newCategory = new Category(setOfCategories.getString(1), setOfCategories.getString(2));
-				
-				allCategories.add(newCategory);
-			}
-			dbconnection.close();
-		} catch(SQLException ex) {
-			ex.printStackTrace();
-			System.out.println("Unable to retrieve list of products");
-		}
-		return allCategories;
 	}
 }
