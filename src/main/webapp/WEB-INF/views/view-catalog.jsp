@@ -11,11 +11,13 @@
 		<h1>Product catalog</h1>
 
 		<br>
+		<div class = "container">
 			<nav class="navbar navbar-right">
 				<ul class="nav navbar-nav">
 					<li><a href="/view-categories.pcat">Product Categories</a></li>
 				</ul>
 			</nav>
+			</div>
 			<br>
 			<br>
 		<ul class="container">
