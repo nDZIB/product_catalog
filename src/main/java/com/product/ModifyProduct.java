@@ -14,7 +14,6 @@ import javax.servlet.http.Part;
 
 import com.category.Category;
 import com.category.CategoryManagementService;
-import com.systemuser.UserAuthenticationService;
 
 @WebServlet(urlPatterns = "/modify-product.pcat")
 @MultipartConfig(maxFileSize = 16177215)
