@@ -1,6 +1,10 @@
 # product_catalog
 this application manages a collection of products in a shop
 
+#Point to note
+    The application is of two versions.
+       1.   Version is on the master branch and allows any user to modify any product
+       2.   Version two is on the branch secondpointofview and allows a logged in user to modify or delete only a product which they had added
 #Getting it running
     After having cloned the repository:
 1. First import the file named "product_catalog_ysql_script.sql" from the "sql_script" directory of this repository. It is a mysql database script, which contains the database used within the project. It can be imported into a mysql server, but for best of output, it can be imported using xampp. (for the original database resides in xampp)
