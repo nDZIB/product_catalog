@@ -1,5 +1,5 @@
-CREATE DATABASE new_product_catalog;
-USE new_product_catalog;
+CREATE DATABASE productcatalog;
+USE productcatalog;
 
 CREATE TABLE `category` (
   `categoryID` int(11) NOT NULL,
