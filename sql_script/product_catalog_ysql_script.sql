@@ -1,3 +1,8 @@
+CREATE DATABASE productcatalog;
+USE productcatalog;
+
+
+
 
 CREATE TABLE `category` (
   `categoryID` int(11) NOT NULL,
