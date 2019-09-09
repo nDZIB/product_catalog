@@ -23,8 +23,8 @@ public class ConnectionManager {
 		//setting the location and access privileges for the database handling storage
 		//for the user shopVisitor, password is hopVisito
 		String url = "jdbc:mysql://localhost:3306/productcatalog";
-	    String user = "shopVisitor";
-	    String password = "hopVisito";
+	    String user = "root";
+	    String password = "";
 	    
 		try {
 			databaseConnection =(Connection) DriverManager.getConnection(url, user, password);
